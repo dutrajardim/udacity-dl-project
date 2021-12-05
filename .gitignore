@@ -3,3 +3,4 @@ dl.cfg
 .venv
 default-*-*-*-*-*.ipynb
 __pycache__
+local.sparkconf.cfg
