@@ -89,3 +89,15 @@ songplay_table_schema = StructType(
         StructField("user_agent", StringType(), True),
     ]
 )
+
+time_table_schema = StructType(
+    [
+        StructField("start_time", TimestampType(), True),
+        StructField("hour", ShortType(), True),
+        StructField("day", ShortType(), True),
+        StructField("week", ShortType(), True),
+        StructField("month", ShortType(), True),
+        StructField("year", ShortType(), True),
+        StructField("weekday", ShortType(), True),
+    ]
+)
