@@ -1,8 +1,10 @@
 import * as React from "react"
 
 import Layout from "../components/layout"
-import LevelCountingByWeekdayChart from "../charts/LevelCountingByWeekdayChart"
-import CountingByLevelChart from "../charts/CountingByLevelChart"
+import PlaysByLevelWeekdayBar from "../charts/PlaysByLevelWeekdayBar"
+import PlaysByLevelPie from "../charts/PlaysByLevelPie"
+import PlaysByGenderPie from "../charts/PlaysByGenderPie"
+import PlaysByGenderWeekScatter from "../charts/PlaysByGenderWeekScatter"
 import ArtistsFiveMostListenedTable from "../charts/ArtistsFiveMostListenedTable"
 
 const IndexPage = () => {
@@ -12,7 +14,7 @@ const IndexPage = () => {
 				<div className="col">
 					<div className="card mt-2">
 						<div className="card-body">
-							<CountingByLevelChart />
+							<PlaysByLevelPie />
 						</div>
 					</div>
 				</div>
@@ -21,7 +23,7 @@ const IndexPage = () => {
 				<div className="col">
 					<div className="card mt-2">
 						<div className="card-body">
-							<LevelCountingByWeekdayChart />
+							<PlaysByLevelWeekdayBar />
 						</div>
 					</div>
 				</div>
@@ -31,6 +33,24 @@ const IndexPage = () => {
 					<div className="card mt-2">
 						<div className="card-body">
 							<ArtistsFiveMostListenedTable />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div className="row">
+				<div className="col">
+					<div className="card mt-2">
+						<div className="card-body">
+							<PlaysByGenderPie />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div className="row">
+				<div className="col">
+					<div className="card mt-2">
+						<div className="card-body">
+							<PlaysByGenderWeekScatter />
 						</div>
 					</div>
 				</div>

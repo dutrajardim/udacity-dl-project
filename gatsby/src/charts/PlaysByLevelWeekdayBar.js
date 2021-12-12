@@ -1,13 +1,13 @@
 import React from 'react'
-
 import { useStaticQuery, graphql } from "gatsby"
 import Plot from "react-plotly.js"
 
+import { getWeekdays } from '../helpers'
+
 const gql = graphql`
     query {
-        freeLevelCountByWeekday: allOlapLevelWeekdayArtists(
+        freeLevelData: allOlapLevelWeekdayArtists(
             filter: {name: {eq: null}, level: {eq: "free"}, weekday: {ne: null}}
-            sort: {fields: weekday, order: ASC}
         ) {
             edges {
                 node {
@@ -16,9 +16,8 @@ const gql = graphql`
                 }
             }
         },
-        paidLevelCountByWeekday: allOlapLevelWeekdayArtists(
+        paidLevelData: allOlapLevelWeekdayArtists(
             filter: {name: {eq: null}, level: {eq: "paid"}, weekday: {ne: null}}
-            sort: {fields: weekday, order: ASC}
         ) {
             edges {
                 node {
@@ -30,33 +29,24 @@ const gql = graphql`
     }
 `
 
-const getWeekdays = (lang = navigator.language) => {
-    const daysInMS = 24 * 60 * 60 * 1000
-    const firstSunday = 4 * daysInMS
-
-    return [...Array(7).keys()]
-        .map(daysQtd => (new Date(firstSunday + daysQtd * daysInMS))
-            .toLocaleDateString(lang, { weekday: 'long' }))
-}
-
-export default function LevelCountByWeekdayChart() {
+export default function PlaysByLevelWeekdayBar() {
     const resp = useStaticQuery(gql)
-
-    const freeLevelCountByWeekday = resp.freeLevelCountByWeekday.edges.reduce((acc, { node }) => ({ ...acc, [node.weekday]: node.count }), {})
-    const paidLevelCountByWeekday = resp.paidLevelCountByWeekday.edges.reduce((acc, { node }) => ({ ...acc, [node.weekday]: node.count }), {})
+    const reducer = (acc, { node }) => ({ ...acc, [node.weekday]: node.count })
+    const freeLevelData = resp.freeLevelData.edges.reduce(reducer, {})
+    const paidLevelData = resp.paidLevelData.edges.reduce(reducer, {})
 
     const weekdays = getWeekdays()
     const freeLevelTrace = {
         type: 'bar',
         name: 'Free',
-        y: weekdays.map((_, key) => (freeLevelCountByWeekday[key + 1] || 0)),
+        y: weekdays.map((_, key) => (freeLevelData[key + 1] || 0)),
         x: weekdays
     }
 
     const paidLevelTrace = {
         type: 'bar',
         name: 'Paid',
-        y: weekdays.map((_, key) => (paidLevelCountByWeekday[key + 1] || 0)),
+        y: weekdays.map((_, key) => (paidLevelData[key + 1] || 0)),
         x: weekdays
     }
 

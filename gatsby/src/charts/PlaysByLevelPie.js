@@ -1,12 +1,12 @@
 import React from 'react'
-
 import { useStaticQuery, graphql } from "gatsby"
 import Plot from "react-plotly.js"
 
+import { capitalizeFirstLetter } from "../helpers"
 
 const gql = graphql`
     query LevelWeekdayArtistCube {
-        countByLevel: allOlapLevelWeekdayArtists(
+        data: allOlapLevelWeekdayArtists(
             filter: {name: {eq: null}, weekday: {eq: null}, level: {ne: null}}
         ) {
             edges {
@@ -19,17 +19,15 @@ const gql = graphql`
     }
 `
 
-const capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);
-
-export default function CountingByLevelChart() {
+export default function PlaysByLevelPie() {
     const resp = useStaticQuery(gql)
-
-    const countByLevel = resp.countByLevel.edges.reduce((acc, { node }) => ({ ...acc, [node.level]: node.count }), {})
+    const reducer = (acc, { node }) => ([[...acc[0], node.level], [...acc[1], node.count]])
+    const [labels, values] = resp.data.edges.reduce(reducer, [[], []])
 
     const levelTrace = {
         type: 'pie',
-        values: Object.values(countByLevel),
-        labels: Object.keys(countByLevel).map(capitalizeFirstLetter),
+        values,
+        labels: labels.map(capitalizeFirstLetter),
     }
 
     return (
