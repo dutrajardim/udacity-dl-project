@@ -56,6 +56,9 @@ user_table_schema = StructType(
         StructField("level", StringType(), True),
     ]
 )
+user_table_schema_with_start_time = user_table_schema.add(
+    StructField("start_time", TimestampType(), True)
+)
 
 song_table_schema = StructType(
     [

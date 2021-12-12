@@ -1,0 +1,32 @@
+{
+  "name": "sparkify-data-lake-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sparkify Data Lake Dashboard",
+  "author": "Rafael Dutra Jardim",
+  "keywords": [
+    "gatsby"
+  ],
+  "scripts": {
+    "develop": "gatsby develop",
+    "start": "gatsby develop",
+    "build": "gatsby build",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean"
+  },
+  "dependencies": {
+    "bootstrap": "^5.1.3",
+    "gatsby": "^4.3.0",
+    "gatsby-plugin-react-helmet": "^5.3.0",
+    "gatsby-plugin-sass": "^5.3.0",
+    "plotly.js": "^2.7.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-helmet": "^6.1.0",
+    "react-plotly.js": "^2.5.1",
+    "sass": "^1.44.0"
+  },
+  "devDependencies": {
+    "gatsby-starter-olap": "file:plugins/gatsby-source-olap"
+  }
+}

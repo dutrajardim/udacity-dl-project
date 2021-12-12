@@ -1,0 +1,11 @@
+{
+    "name": "gatsby-starter-olap",
+    "version": "1.0.0",
+    "description": "A minimal boilerplate for the essential files Gatsby looks for in a plugin",
+    "main": "index.js",
+    "author": "Rafael Dutra Jardim <rafaeldjardim@gmail.com>",
+    "devDependencies": {
+        "minio": "^7.0.25",
+        "parquetjs-lite": "^0.8.7"
+    }
+}
