@@ -34,9 +34,17 @@ export default function PlaysByGenderPie() {
         labels: labels.map(v => labelsMap[v])
     }
 
+    let layout = {
+        autosize: true,
+        margin: { t: 30, b: 0, r: 10, l: 10 },
+        legend: { orientation: "h" }
+    }
+
     return (
         <Plot
             data={[countingTrace]}
-            layout={{ title: 'Counting by gender' }} />
+            layout={layout}
+            useResizeHandler={true}
+            style={{ width: '100%', height: '100%', maxHeight: '200px' }} />
     )
 }

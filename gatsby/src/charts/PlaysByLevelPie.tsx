@@ -27,12 +27,20 @@ export default function PlaysByLevelPie() {
     const levelTrace = {
         type: 'pie',
         values,
-        labels: labels.map(capitalizeFirstLetter),
+        labels: labels.map(capitalizeFirstLetter)
+    }
+
+    let layout = {
+        autosize: true,
+        margin: { t: 30, b: 0, r: 10, l: 10 },
+        legend: { orientation: "h" }
     }
 
     return (
         <Plot
             data={[levelTrace]}
-            layout={{ title: 'Count by level', width: 350 }} />
+            layout={layout}
+            useResizeHandler={true}
+            style={{ width: '100%', height: '100%', maxHeight: '200px' }} />
     )
 }

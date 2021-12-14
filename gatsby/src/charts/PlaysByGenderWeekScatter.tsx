@@ -79,9 +79,18 @@ export default function PlaysByGenderWeekScatter() {
         y: weekRange.map(week => anonymousData[week] || 0)
     }
 
+    let layout = {
+        autosize: true,
+        margin: { t: 30, b: 0, r: 25, l: 25 },
+        legend: { orientation: "h" }
+    }
+
+
     return (
         <Plot
             data={[fTrace, mTrace, anTrace]}
-            layout={{ title: "Counting plays by gender and week of year" }} />
+            layout={layout}
+            useResizeHandler={true}
+            style={{ width: '100%', height: '100%', maxHeight: '250px' }} />
     )
 }

@@ -10,7 +10,6 @@ def _compose(*functions):
     return functools.reduce(reducer, reversed(functions), last_function)
 
 
-# TODO: invert rename transformations mapper (working as a map)
 def create_basic_pipeline(rename_transformations={}, cast_transformations={}):
     def rename_columns(input_tuple):
         df, schema = input_tuple

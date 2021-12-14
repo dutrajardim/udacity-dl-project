@@ -50,9 +50,17 @@ export default function PlaysByLevelWeekdayBar() {
         x: weekdays
     }
 
+    let layout = {
+        autosize: true,
+        margin: { t: 30, b: 0, r: 25, l: 25 },
+        legend: { orientation: "h" }
+    }
+
     return (
         <Plot
             data={[freeLevelTrace, paidLevelTrace]}
-            layout={{ title: 'Count by weekday' }} />
+            layout={layout}
+            useResizeHandler={true}
+            style={{ width: '100%', height: '100%', maxHeight: '250px' }} />
     )
 }

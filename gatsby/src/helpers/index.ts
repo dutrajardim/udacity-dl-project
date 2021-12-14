@@ -1,6 +1,6 @@
 // related to date
 
-export function getWeekdays(lang = navigator.language) {
+export function getWeekdays(lang: string = navigator.language): string[] {
     const daysInMS = 24 * 60 * 60 * 1000
     const firstSunday = 4 * daysInMS
 
@@ -11,7 +11,7 @@ export function getWeekdays(lang = navigator.language) {
 
 // related to text
 
-export function capitalizeFirstLetter(string) {
+export function capitalizeFirstLetter(string: string): string {
     return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
@@ -19,7 +19,7 @@ export function capitalizeFirstLetter(string) {
 // others
 
 // do not include the until value
-export function range(from, until, increment = 1) {
+export function range(from: number, until: number, increment: number = 1): number[] {
     const length = Math.ceil((until - from) / increment)
     return Array.from({ length }, (_, idx) => from + (idx * increment))
 } 

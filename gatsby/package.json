@@ -27,6 +27,7 @@
     "sass": "^1.44.0"
   },
   "devDependencies": {
+    "@types/node": "^16.11.12",
     "gatsby-starter-olap": "file:plugins/gatsby-source-olap"
   }
 }

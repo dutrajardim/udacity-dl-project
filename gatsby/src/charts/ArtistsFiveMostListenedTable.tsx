@@ -23,8 +23,8 @@ export default function ArtistsFiveMostListenedTable() {
     const fiveMost = resp.fiveMostListened.edges.map(({ node }) => node)
 
     return (
-        <div className="table-responsive">
-            <table className="table">
+        <div className="table-responsive" style={{ maxHeight: '200px' }}>
+            <table className="table table-sm">
                 <thead>
                     <tr>
                         <th className="col">#</th>
