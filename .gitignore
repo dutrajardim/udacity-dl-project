@@ -5,7 +5,12 @@ default-*-*-*-*-*.ipynb
 __pycache__
 local.sparkconf.cfg
 
+dist
+build
+*.egg-info
+
 node_modules
 .cache
 public
 package-lock.json
+aws/steps.json

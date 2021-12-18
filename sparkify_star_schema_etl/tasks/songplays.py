@@ -1,4 +1,4 @@
-from tasks import create_basic_pipeline
+from sparkify_star_schema_etl.helpers import create_basic_pipeline
 from pyspark.sql.functions import expr
 from pyspark.sql.types import (
     StructType,
@@ -8,10 +8,9 @@ from pyspark.sql.types import (
     TimestampType
 )
 
-
 songplay_table_schema = StructType(
     [
-        StructField("start_time", TimestampType(), True),
+        StructField("start_time", TimestampType(), False),
         StructField("user_id", IntegerType(), True),
         StructField("level", StringType(), True),
         StructField("song_id", StringType(), True),
@@ -24,7 +23,6 @@ songplay_table_schema = StructType(
 
 
 def extract_songplays(df_joined):
-    # fmt: off
     # defining basic pipeline with rename and cast transformations
     basic_pipeline = create_basic_pipeline(
         rename_transformations={
@@ -44,14 +42,12 @@ def extract_songplays(df_joined):
     df_songplays = basic_pipeline((df_joined, songplay_table_schema))
     
     return df_songplays
-    # fmt: on
-
+    
 
 def save_songplays(spark, df_songplays, output_data):
     # set dynamic mode to preserve previous month of songplays saved
     spark.conf.set("spark.sql.sources.partitionOverwriteMode", "dynamic")
 
-    # fmt: off
     # saving songs dataset with new year and month columns
     # to create partitions
     df_songplays \
@@ -62,4 +58,3 @@ def save_songplays(spark, df_songplays, output_data):
         .option('schema', songplay_table_schema) \
         .mode('overwrite') \
         .save('%ssongplays.parquet' % output_data)
-    # fmt: on

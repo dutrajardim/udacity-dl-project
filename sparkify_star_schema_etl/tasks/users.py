@@ -1,4 +1,4 @@
-from tasks import create_basic_pipeline
+from sparkify_star_schema_etl.helpers import create_basic_pipeline
 from pyspark.sql.functions import desc
 from pyspark.sql.types import (
     StructType,
@@ -8,10 +8,9 @@ from pyspark.sql.types import (
     TimestampType,
 )
 
-
 user_table_schema = StructType(
     [
-        StructField("user_id", IntegerType(), True),
+        StructField("user_id", IntegerType(), False),
         StructField("first_name", StringType(), True),
         StructField("last_name", StringType(), True),
         StructField("gender", StringType(), True),
@@ -24,23 +23,7 @@ user_table_schema_with_start_time = user_table_schema.add(
 )
 
 
-def save_users(spark, df_users, output_data):
-    # set dynamic mode to preserve previous users saved
-    spark.conf.set("spark.sql.sources.partitionOverwriteMode", "dynamic")
-
-    # fmt: off
-    # saving users dataset
-    df_users.write \
-        .option("schema", user_table_schema) \
-        .format("parquet") \
-        .partitionBy("user_id") \
-        .mode("overwrite")\
-        .save("%susers.parquet" % output_data)
-    # fmt: on
-
-
 def extract_users(df_log_data):
-    # fmt: off
     # defining basic pipeline with rename and cast transformations
     basic_pipeline = create_basic_pipeline(
         rename_transformations={
@@ -54,18 +37,28 @@ def extract_users(df_log_data):
             "user_id": "INT(user_id) as user_id"
         },
     )
-    # fmt: on
 
     # selecting all user fields, except start_time and level to
     # select duplicates and keep most recent level information
     exceptions_filter = lambda name: name not in ["start_time", "level"]
     uniqueRowFields = list(filter(exceptions_filter, user_table_schema.names))
-    df_users = (
-        basic_pipeline((df_log_data, user_table_schema_with_start_time))
-        .where("user_id IS NOT NULL")
-        .orderBy(desc("start_time"))
-        .dropDuplicates(uniqueRowFields)
+    df_users = basic_pipeline((df_log_data, user_table_schema_with_start_time)) \
+        .where("user_id IS NOT NULL") \
+        .orderBy(desc("start_time")) \
+        .dropDuplicates(uniqueRowFields) \
         .drop("start_time")
-    )
 
     return df_users
+
+
+def save_users(spark, df_users, output_data):
+    # set dynamic mode to preserve previous users saved
+    spark.conf.set("spark.sql.sources.partitionOverwriteMode", "dynamic")
+
+    # saving users dataset
+    df_users.write \
+        .option("schema", user_table_schema) \
+        .format("parquet") \
+        .partitionBy("user_id") \
+        .mode("overwrite")\
+        .save("%susers.parquet" % output_data)

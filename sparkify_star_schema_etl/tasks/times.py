@@ -1,4 +1,4 @@
-from tasks import create_basic_pipeline
+from sparkify_star_schema_etl.helpers import create_basic_pipeline
 from pyspark.sql.types import (
     StructType,
     StructField,
@@ -8,19 +8,18 @@ from pyspark.sql.types import (
 
 time_table_schema = StructType(
     [
-        StructField("start_time", TimestampType(), True),
+        StructField("start_time", TimestampType(), False),
         StructField("hour", ShortType(), True),
         StructField("day", ShortType(), True),
         StructField("week", ShortType(), True),
-        StructField("month", ShortType(), True),
-        StructField("year", ShortType(), True),
+        StructField("month", ShortType(), False),
+        StructField("year", ShortType(), False),
         StructField("weekday", ShortType(), True),
     ]
 )
 
 
 def extract_times(df_songplays):
-    # fmt: off
     # defining basic pipeline with rename and cast transformations
     basic_pipeline = create_basic_pipeline(
         cast_transformations={
@@ -37,18 +36,15 @@ def extract_times(df_songplays):
     df_times = basic_pipeline((df_songplays, time_table_schema)).distinct()
     
     return df_times
-    # fmt: on
 
 
 def save_times(spark, df_times, output_data):
     # set dynamic mode to preserve previous month of times saved
     spark.conf.set("spark.sql.sources.partitionOverwriteMode", "dynamic")
 
-    # fmt: off
     # saving times dataset
     df_times.write \
         .partitionBy(['year', 'month']) \
         .option('schema', time_table_schema) \
         .mode('overwrite') \
         .save('%stimes.parquet' % output_data)
-    # fmt: on

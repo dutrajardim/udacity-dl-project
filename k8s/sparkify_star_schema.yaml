@@ -1,0 +1,44 @@
+apiVersion: "sparkoperator.k8s.io/v1beta2"
+kind: SparkApplication
+metadata:
+  name: sparkify-star-schema
+  namespace: spark-apps
+spec:
+  type: Python
+  pythonVersion: "3"
+  mode: cluster
+  image: "dutradocker/spark-py:3.2.0"
+  imagePullPolicy: Always
+  mainApplicationFile: s3a://dutrajardim-etls/sparkify_star_schema/sparkify_star_schema_script.py
+  sparkVersion: "3.2.0"
+  deps:
+    pyFiles:
+    - https://minio.minio-tenant/dutrajardim-etls/sparkify_star_schema/sparkify_star_schema_etl-0.1.0-py3-none-any.whl?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20211216%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20211216T233758Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=028ab2c3d0a577a1e9372735f0d59a353d092d864461ef23a0370e68c16f296d 
+  hadoopConf:
+    fs.s3a.aws.credentials.provider: "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider"
+    fs.s3a.path.style.access: "true"
+    fs.s3a.impl: "org.apache.hadoop.fs.s3a.S3AFileSystem"
+    fs.s3a.endpoint: "https://minio.minio-tenant.svc.cluster.local"
+    fs.s3a.access.key: "admin"
+    fs.s3a.secret.key: "6bd71ace-8866-407a-9bcc-714bc5753f18"
+  restartPolicy:
+    type: OnFailure
+    onFailureRetries: 3
+    onFailureRetryInterval: 10
+    onSubmissionFailureRetries: 5
+    onSubmissionFailureRetryInterval: 20
+  driver:
+    serviceAccount: spark
+    javaOptions: "-Divy.cache.dir=/tmp -Divy.home=/tmp"
+    cores: 1
+    memory: "4g"
+    labels:
+      version: 3.2.0
+  executor:
+    serviceAccount: spark
+    javaOptions: "-Divy.cache.dir=/tmp -Divy.home=/tmp"
+    cores: 1
+    instances: 2
+    memory: "4g"
+    labels:
+      version: 3.2.0

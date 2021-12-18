@@ -1,4 +1,4 @@
-from tasks import create_basic_pipeline
+from sparkify_star_schema_etl.helpers import create_basic_pipeline
 from pyspark.sql.types import (
     StructType,
     StringType,
@@ -10,9 +10,9 @@ from pyspark.sql.types import (
 
 song_table_schema = StructType(
     [
-        StructField("song_id", StringType(), True),
+        StructField("song_id", StringType(), False),
         StructField("title", StringType(), True),
-        StructField("artist_id", StringType(), True),
+        StructField("artist_id", StringType(), False),
         StructField("year", ShortType(), True),
         StructField("duration", DoubleType(), True),
     ]
@@ -32,7 +32,6 @@ def save_songs(spark, df_songs, output_data):
     # set dynamic mode to preserve previous users saved
     spark.conf.set("spark.sql.sources.partitionOverwriteMode", "dynamic")
 
-    # fmt: off
     # saving songs dataset
     df_songs.write \
         .partitionBy(['year', 'artist_id', 'song_id']) \
@@ -40,4 +39,3 @@ def save_songs(spark, df_songs, output_data):
         .format('parquet') \
         .mode('overwrite') \
         .save('%ssongs.parquet' % output_data)
-    # fmt: on
