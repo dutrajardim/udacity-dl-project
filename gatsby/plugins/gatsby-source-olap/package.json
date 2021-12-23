@@ -1,8 +1,8 @@
 {
     "name": "gatsby-starter-olap",
     "version": "1.0.0",
-    "description": "A minimal boilerplate for the essential files Gatsby looks for in a plugin",
-    "main": "index.js",
+    "description": "A gatsby plugin to get olap data from s3 filesystem",
+    "main": "gatsby-node.js",
     "author": "Rafael Dutra Jardim <rafaeldjardim@gmail.com>",
     "devDependencies": {
         "minio": "^7.0.25",
