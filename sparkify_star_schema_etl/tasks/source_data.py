@@ -9,6 +9,7 @@ from pyspark.sql.types import (
     ShortType
 )
 
+# log data schema
 log_data_schema = StructType(
     [
         StructField("artist", StringType(), True),
@@ -32,6 +33,7 @@ log_data_schema = StructType(
     ]
 )
 
+# song data schema
 song_data_schema = StructType(
     [
         StructField("artist_id", StringType(), True),
@@ -49,6 +51,18 @@ song_data_schema = StructType(
 
 
 def extract_log_data(spark, input_data):
+    """
+    Description:
+        This function is responsible for extract the log data
+        with information about song plays.
+    
+    Arguments:
+        spark: Spark session.
+        input_data: s3 address where the log data is stored
+
+    Returns:
+        A spark data frame with the log data.
+    """
     logger = logging.getLogger("data_lake_project")
     logger.info("Stating load log data.")
 
@@ -62,6 +76,18 @@ def extract_log_data(spark, input_data):
 
 
 def extract_song_data(spark, input_data):
+    """
+    Description:
+        This function is responsible for extract the song data
+        with information about songs and artists.
+    
+    Arguments:
+        spark: Spark session.
+        input_data: s3 address where the song data is stored
+
+    Returns:
+        A spark data frame with the song data.
+    """
     logger = logging.getLogger("data_lake_project")
     logger.info("Stating load song data.")
 

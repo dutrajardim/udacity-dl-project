@@ -6,13 +6,14 @@ import { DocstringListener } from './listeners/DocstringListener'
 import { Python3Listener } from './antlr/Python3Listener'
 import { ParseTreeWalker } from 'antlr4ts/tree/ParseTreeWalker'
 
+
 exports.onCreateNode = async (args: CreateNodeArgs) => {
     const {
         node, 
         loadNodeContent, 
-        actions: { createNode, createParentChildLink },
+        actions: { createNode, createParentChildLink, createNodeField },
         createNodeId,
-        createContentDigest,
+        createContentDigest
     } = args
 
     if (node.extension !== 'py') return
@@ -27,15 +28,26 @@ exports.onCreateNode = async (args: CreateNodeArgs) => {
     const parseTree = parser.file_input()
 
     const listener: Python3Listener = new DocstringListener({
+        fileInputCallback: (ctx) => {
+            const reComment = new RegExp(`^[\s\n]*"""(.+?)(?=""").*`, 's')
+            let metches = ctx.text.match(reComment)
+            if (metches) {
+                createNodeField({
+                    node,
+                    name: "pythonComment",
+                    value: metches[1].trim()
+                })
+            }
+        },
         funcdefCallback: (ctx) => {
             const description = {
                 name: ctx.NAME().text,
-                docstring: { description: '', args: '', returns: '' }
+                docstring: { description: '', arguments: '', returns: '' }
             }
-    
-            const reComment = new RegExp(`"""(.*)"""`, 's')
-            const reCommentParam = new RegExp(`(.*)(Description|Args|Returns)\s{0,3}:(.*)`, 's')
-            
+
+            const reComment = new RegExp(`(?=""")(.+?)(?=""")`, 's')
+            const reCommentParam = new RegExp(`(.*)(Description|Arguments|Returns)\s{0,3}:(.*)`, 'si')
+
             let matches = ctx.text.match(reComment)
             let comments = matches && matches.length > 0 ? matches[1] : null
             

@@ -8,6 +8,7 @@ from pyspark.sql.types import (
     TimestampType
 )
 
+# songplay table schema
 songplay_table_schema = StructType(
     [
         StructField("start_time", TimestampType(), False),
@@ -23,6 +24,18 @@ songplay_table_schema = StructType(
 
 
 def extract_songplays(df_joined):
+    """
+    Description:
+        This function is responsible for extrating song plays data
+        from the song data joined with log data.
+
+    Arguments:
+        df_joined: A spark data frame with song data joined with
+        log data.
+
+    Returns:
+        The song plays data frame. 
+    """
     # defining basic pipeline with rename and cast transformations
     basic_pipeline = create_basic_pipeline(
         rename_transformations={
@@ -45,6 +58,20 @@ def extract_songplays(df_joined):
     
 
 def save_songplays(spark, df_songplays, output_data):
+    """
+    Description:
+        This function is responsible for storing the
+        transformed song plays data to the s3.
+    
+    Arguments:
+        spark: Spark session.
+        df_songplays: Song plays spark data frame with all
+        lazy transformations.
+        output_data: S3 address where the result will be stored.
+    
+    Returns:
+        None.
+    """
     # set dynamic mode to preserve previous month of songplays saved
     spark.conf.set("spark.sql.sources.partitionOverwriteMode", "dynamic")
 

@@ -9,6 +9,20 @@ from sparkify_star_schema_etl.tasks.source_data import extract_log_data, extract
 
 
 def sparkify_star_schema_job(spark, input_data, output_data):
+    """
+    Description:
+        This function is responsible for running all needed tasks
+        to retrive data, transform and save sparkify star schema in
+        the output data address.
+
+    Arguments:
+        spark: Spark session.
+        input_data: S3 address where the log data is stored.
+        output_data: S3 address where the result will be stored. 
+
+    Returns:
+        None.
+    """
     
     # loading staging song data
     df_song_data = extract_song_data(spark, input_data).alias('song_data')

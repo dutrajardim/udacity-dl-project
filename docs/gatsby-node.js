@@ -8,10 +8,13 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                 files: nodes {
                     relativePath
                     name
+                    fields {
+                        pythonComment
+                    }
                     functions: childrenPythonFunctionDescription {
                         name
                         docstring {
-                            args
+                            arguments
                             description
                             returns
                         }

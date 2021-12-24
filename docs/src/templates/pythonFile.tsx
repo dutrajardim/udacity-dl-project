@@ -5,12 +5,15 @@ import Layout from '../components/layout'
 import FilesNav from '../components/filesNav'
 
 interface PythonFile {
-    name
+    name,
+    fields?: {
+        pythonComment: string
+    },
     functions: [{
         name: string,
         docstring: {
             description: string,
-            args: string,
+            arguments: string,
             returns: string
         }
     }]
@@ -24,12 +27,15 @@ export default function PythonFile({ pageContext }: PageProps) {
         <Layout>
             <>
                 <div className="row">
-                    <div className="col col-md-5">
+                    <div className="col col-md-3">
                         <FilesNav />
                     </div>
-                    <div className="col col-md-7">
+                    <div className="col col-md-9 card p-5 shadow rounded ">
                         <div className='row'>
-                            <div className="col"><h2>{file.name}</h2></div>
+                            <div className="col">
+                                <h2>{file.name}</h2>
+                                <div className="span">{file.fields?.pythonComment}</div>
+                            </div>
                         </div>
                         {file.functions.map((func, idx) => (
                             <div className="row" key={idx}>
@@ -37,8 +43,8 @@ export default function PythonFile({ pageContext }: PageProps) {
                                 <dl>
                                     <dt>Description:</dt>
                                     <dd>{func.docstring.description}</dd>
-                                    <dt>Args:</dt>
-                                    <dd>{func.docstring.args}</dd>
+                                    <dt>Arguments:</dt>
+                                    <dd>{func.docstring.arguments}</dd>
                                     <dt>Returns:</dt>
                                     <dd>{func.docstring.returns}</dd>
                                 </dl>

@@ -8,6 +8,7 @@ from pyspark.sql.types import (
     TimestampType,
 )
 
+# user table schema
 user_table_schema = StructType(
     [
         StructField("user_id", IntegerType(), False),
@@ -18,12 +19,25 @@ user_table_schema = StructType(
     ]
 )
 
+# user table schema with start time field
 user_table_schema_with_start_time = user_table_schema.add(
     StructField("start_time", TimestampType(), True)
 )
 
 
 def extract_users(df_log_data):
+    """
+    Description:
+        This function is responsible for extracting users data
+        from the log data frame.
+    
+    Arguments:
+        df_log_data: A spark data frame with log data about song
+        plays.
+
+    Returns:
+        The users data frame.
+    """
     # defining basic pipeline with rename and cast transformations
     basic_pipeline = create_basic_pipeline(
         rename_transformations={
@@ -52,6 +66,20 @@ def extract_users(df_log_data):
 
 
 def save_users(spark, df_users, output_data):
+    """
+    Description:
+        This function is responsible for storing the
+        transformed users data to the s3 bucket.
+    
+    Arguments:
+        spark: Spark session.
+        df_users: Users spark data frame with all
+        lazy transformations.
+        output_data: S3 address where the result will be stored.
+
+    Returns:
+        None.
+    """
     # set dynamic mode to preserve previous users saved
     spark.conf.set("spark.sql.sources.partitionOverwriteMode", "dynamic")
 

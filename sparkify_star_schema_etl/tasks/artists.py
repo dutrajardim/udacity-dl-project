@@ -6,6 +6,7 @@ from pyspark.sql.types import (
     DoubleType
 )
 
+# artist table schema
 artist_table_schema = StructType(
     [
         StructField("artist_id", StringType(), False),
@@ -18,6 +19,18 @@ artist_table_schema = StructType(
 
 
 def extract_artists(df_song_data):
+    """
+    Description:
+        This function is responsible for extracting artists data
+        from the song data frame.
+
+    Arguments:
+        df_song_data: A spark data frame with metadata about songs and
+        the artists of that song.
+
+    Returns:
+        The artists data frame.
+    """
     # defining basic pipeline with rename transformations
     basic_pipeline = create_basic_pipeline(
         rename_transformations={
@@ -35,6 +48,20 @@ def extract_artists(df_song_data):
 
 
 def save_artists(spark, df_artists, output_data):
+    """
+    Description:
+        This function is responsible for storing the
+        transformed artists data to the s3 bucket.
+
+    Arguments:
+        spark: Spark session.
+        df_artists: Artists spark data frame with all
+        lazy transformations.
+        output_data: S3 address where the result will be stored.
+
+    Returns:
+        None.
+    """
     # set dynamic mode to preserve previous artists saved
     spark.conf.set("spark.sql.sources.partitionOverwriteMode", "dynamic")
 

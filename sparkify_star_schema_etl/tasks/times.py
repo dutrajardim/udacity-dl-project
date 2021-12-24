@@ -6,6 +6,7 @@ from pyspark.sql.types import (
     ShortType
 )
 
+# time table schema
 time_table_schema = StructType(
     [
         StructField("start_time", TimestampType(), False),
@@ -20,6 +21,17 @@ time_table_schema = StructType(
 
 
 def extract_times(df_songplays):
+    """
+    Description:
+        This function is responsible for extracting times data
+        from the song plays data frame.
+    
+    Arguments:
+        df_songplays: A spark data frame with song plays information.
+    
+    Returns:
+        The times data frame.
+    """
     # defining basic pipeline with rename and cast transformations
     basic_pipeline = create_basic_pipeline(
         cast_transformations={
@@ -39,6 +51,20 @@ def extract_times(df_songplays):
 
 
 def save_times(spark, df_times, output_data):
+    """
+    Description:
+        This function is responsible for storing the
+        transformed times data to the s3 bucket.
+    
+    Arguments:
+        spark: Spark session.
+        df_times: Times spark data frame with all
+        lazy transformations.
+        output_data: S3 address where the result will be stored.
+
+    Returns:
+        None.
+    """
     # set dynamic mode to preserve previous month of times saved
     spark.conf.set("spark.sql.sources.partitionOverwriteMode", "dynamic")
 
