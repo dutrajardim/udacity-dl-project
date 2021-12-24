@@ -18,6 +18,7 @@ exports.onCreateNode = async (args: CreateNodeArgs) => {
 
     if (node.extension !== 'py') return
 
+    console.log(node.absolutePath)
     const content = await loadNodeContent(node)
      
     let chars = CharStreams.fromString(content)
@@ -42,6 +43,7 @@ exports.onCreateNode = async (args: CreateNodeArgs) => {
         funcdefCallback: (ctx) => {
             const description = {
                 name: ctx.NAME().text,
+                line: ctx.start.line,
                 docstring: { description: '', arguments: '', returns: '' }
             }
 

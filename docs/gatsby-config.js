@@ -2,6 +2,7 @@ module.exports = {
   siteMetadata: {
     siteUrl: "https://www.yourdomain.tld",
     title: "Sparkify Data Lake Dashboard",
+    githubProjectUrl: "https://github.com/dutrajardim/udacity-dl-project/blob/main" 
   },
   plugins: [
     "gatsby-plugin-sass",
@@ -13,17 +14,17 @@ module.exports = {
         name: 'python-files',
         path: `${__dirname}/..`,
         ignore: [
-          "**/\__*",
+          "**/\_\_*",
           "**/aws",
-          "**/gatsby",
+          "**/docs",
           "**/k8s",
           "**/notebooks",
-          "**/setup.py",
-          "**/setup.py",
-          "**/\.*"
+          "**/\.*",
+          "**/requirements*"
         ]
       }
     },
-    "gatsby-transformer-python-docstring"
+    "gatsby-transformer-python-docstring",
+    "gatsby-transformer-remark"
   ],
 };

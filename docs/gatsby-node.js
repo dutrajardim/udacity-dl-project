@@ -13,12 +13,18 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                     }
                     functions: childrenPythonFunctionDescription {
                         name
+                        line
                         docstring {
                             arguments
                             description
                             returns
                         }
                     }
+                }
+            }
+            site {
+                siteMetadata {
+                    githubProjectUrl
                 }
             }
         }
@@ -35,7 +41,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         createPage({
             path: `python-files/${file.relativePath.slice(0,-3)}`,
             component: pythonFileTemplate,
-            context: { file }
+            context: { file, site: result.data.site }
         })
     })
 }
