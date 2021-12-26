@@ -2,7 +2,7 @@
 // import { useStaticQuery, graphql } from "gatsby"
 // import Plot from "react-plotly.js"
 
-// import { capitalizeFirstLetter } from "../helpers"
+// import * as _ from lodash
 
 // const gql = graphql`
 //     query LevelWeekdayArtistCube {
@@ -27,7 +27,7 @@
 //     const levelTrace = {
 //         type: 'pie',
 //         values,
-//         labels: labels.map(capitalizeFirstLetter)
+//         labels: labels.map(_.capitalize)
 //     }
 
 //     let layout = {

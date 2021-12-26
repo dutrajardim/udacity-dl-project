@@ -10,7 +10,6 @@ setup(
     name='sparkify_star_schema_etl',
     version='0.1.0',
     packages=find_packages(include=['sparkify_star_schema_etl', 'sparkify_star_schema_etl.*']),
-    install_requires=[
-        "pyspark==3.2.0"
-    ]
+    # install_requires=["pyspark"],
+    scripts=["bin/custom"]
 )

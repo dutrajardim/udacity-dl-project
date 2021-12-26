@@ -15,7 +15,7 @@ public
 package-lock.json
 aws/steps.json
 
-**/gatsby-transformer-python-docstring/antlr
+**/gatsby-transformer-python-docstring/dist
 **/gatsby-transformer-python-docstring/src/antlr
 **/gatsby-transformer-python-docstring/listeners
 **/gatsby-transformer-python-docstring/gatsby-node*

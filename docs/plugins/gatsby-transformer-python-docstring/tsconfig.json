@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "experimentalDecorators": true,
-        "outDir": ".",
+        "outDir": "dist",
         "sourceMap": true,
         "inlineSources": true,
         "module": "commonjs",
@@ -25,5 +25,5 @@
         "skipLibCheck": true
     },
     "include": ["./src/**/*"],
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules", "dist"]
 }

@@ -1,8 +1,7 @@
 // import React from 'react'
 // import { useStaticQuery, graphql } from 'gatsby'
 // import Plot from 'react-plotly.js'
-
-// import { range } from '../helpers'
+// import * as _ from 'lodash'
 
 // const gql = graphql`
 //     query  {
@@ -56,7 +55,7 @@
 //     const min = resp.range.min
 //     const max = resp.range.max
 
-//     const weekRange = range(min, max + 1)
+//     const weekRange = _.range(min, max + 1)
 
 //     const fTrace = {
 //         type: 'scatter',

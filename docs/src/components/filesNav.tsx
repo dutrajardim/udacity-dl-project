@@ -16,7 +16,7 @@ function createList (obj) {
         if (typeof(value) === 'string')
             return (
                 <li key={idx}>
-                    <Link className='nav-link ps-0 p-1 text-truncate' to={`/python-files/${value.slice(0, -3)}`}>
+                    <Link className='nav-link ps-0 p-1 text-truncate' to={`/files/${value.slice(0, -3)}`}>
                         <i className="bi bi-file-code pe-2"></i>{path}
                     </Link>
                 </li>

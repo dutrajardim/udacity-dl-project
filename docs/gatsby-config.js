@@ -24,7 +24,7 @@ module.exports = {
         ]
       }
     },
-    "gatsby-transformer-python-docstring",
+    require.resolve('./plugins/gatsby-transformer-python-docstring/dist'),
     "gatsby-transformer-remark"
   ],
 };

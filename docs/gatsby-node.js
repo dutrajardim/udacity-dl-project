@@ -39,7 +39,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
     result.data.allFile.files.forEach(file => {
         createPage({
-            path: `python-files/${file.relativePath.slice(0,-3)}`,
+            path: `files/${file.relativePath.slice(0,-3)}`,
             component: pythonFileTemplate,
             context: { file, site: result.data.site }
         })

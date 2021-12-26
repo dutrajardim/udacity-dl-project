@@ -18,7 +18,6 @@ exports.onCreateNode = async (args: CreateNodeArgs) => {
 
     if (node.extension !== 'py') return
 
-    console.log(node.absolutePath)
     const content = await loadNodeContent(node)
      
     let chars = CharStreams.fromString(content)
