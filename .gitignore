@@ -13,9 +13,11 @@ node_modules
 .cache
 public
 package-lock.json
-aws/steps.json
 
-**/gatsby-transformer-python-docstring/dist
-**/gatsby-transformer-python-docstring/src/antlr
+**/gatsby-transformer-python-docstring/src/antlr/*
+!**/gatsby-transformer-python-docstring/src/antlr/*.g4
 **/gatsby-transformer-python-docstring/listeners
 **/gatsby-transformer-python-docstring/gatsby-node*
+!**/gatsby-transformer-python-docstring/dist
+**/gatsby-transformer-python-docstring/dist/*
+!**/gatsby-transformer-python-docstring/dist/package.json

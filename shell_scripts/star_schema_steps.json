@@ -1,0 +1,15 @@
+[
+    {
+        "Type": "Spark",
+        "Name": "Udacity - Data Lake Project",
+        "ActionOnFailure": "CONTINUE",
+        "Args": [
+            "--deploy-mode", "cluster",
+            "--master", "yarn",
+            "--py-files", "s3://dutrajardim-etls/sparkify_etls/*.egg",
+            "--conf", "spark.hadoop.fs.path.style.access=true",
+            "--conf", "spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem",
+            "s3://dutrajardim-etls/sparkify_etls/sparkify_script.py", "star_schema_job"
+        ]
+    }
+]

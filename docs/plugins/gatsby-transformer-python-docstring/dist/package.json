@@ -1,0 +1,7 @@
+{
+    "name": "gatsby-starter-olap",
+    "version": "1.0.0",
+    "description": "A gatsby plugin to get docstring from python file",
+    "main": "gatsby-node.js",
+    "author": "Rafael Dutra Jardim <rafaeldjardim@gmail.com>"
+}

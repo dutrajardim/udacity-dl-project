@@ -13,8 +13,7 @@
     "build": "gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "build-plugins": "tsc -b plugins/gatsby-transformer-python-docstring",
-    "antlr4ts": "antlr4ts -o ./plugins/gatsby-transformer-python-docstring/src/antlr ./plugins/gatsby-transformer-python-docstring/src/grammars/Python3.g4"
+    "build-plugins": "antlr4ts plugins/gatsby-transformer-python-docstring/src/antlr/Python3.g4 && tsc -b plugins/gatsby-transformer-python-docstring"
   },
   "dependencies": {},
   "devDependencies": {

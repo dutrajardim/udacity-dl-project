@@ -2,7 +2,7 @@ module.exports = {
   siteMetadata: {
     siteUrl: "https://www.yourdomain.tld",
     title: "Sparkify Data Lake Dashboard",
-    githubProjectUrl: "https://github.com/dutrajardim/udacity-dl-project/blob/main" 
+    githubProjectUrl: "https://github.com/dutrajardim/udacity-dl-project/blob/main"
   },
   plugins: [
     "gatsby-plugin-sass",
@@ -20,7 +20,10 @@ module.exports = {
           "**/k8s",
           "**/notebooks",
           "**/\.*",
-          "**/requirements*"
+          "**/requirements*",
+          "**/build",
+          "**/dist",
+          "**/sparkify_etls.egg-info"
         ]
       }
     },

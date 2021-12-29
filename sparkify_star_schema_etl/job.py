@@ -1,4 +1,5 @@
 from pyspark.sql.functions import expr
+from pyspark.sql import SparkSession
 
 from sparkify_star_schema_etl.tasks.users import save_users, extract_users
 from sparkify_star_schema_etl.tasks.artists import save_artists, extract_artists
@@ -8,7 +9,7 @@ from sparkify_star_schema_etl.tasks.times import save_times, extract_times
 from sparkify_star_schema_etl.tasks.source_data import extract_log_data, extract_song_data
 
 
-def sparkify_star_schema_job(spark, input_data, output_data):
+def star_schema_job(spark, input_data, output_data):
     """
     Description:
         This function is responsible for running all needed tasks
@@ -58,3 +59,33 @@ def sparkify_star_schema_job(spark, input_data, output_data):
     # extracting and saving times
     df_times = extract_times(df_songplays)
     save_times(spark, df_times, output_data)
+
+
+def main():
+    """
+    Description:
+        This function is responsible for starting
+        a spark session, defining input and output s3 bucket,
+        starting sparkify star schema job, and
+        after that, closing spark session.
+    
+    Arguments:
+        None.
+    
+    Returns:
+        None.
+    """
+    # starting spark session
+    spark = SparkSession.builder \
+        .appName("Udacity - Data Lake Project") \
+        .getOrCreate()
+    
+    # defining project sources paths 
+    input_data = "s3a://udacity-dend/"
+    output_data = "s3a://dutrajardim/udacity-dl-project/"
+
+    # stating star schema job
+    star_schema_job(spark, input_data, output_data)
+    
+    # closing spark session
+    spark.stop()
