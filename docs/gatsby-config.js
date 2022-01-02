@@ -1,3 +1,9 @@
+const process = require('process')
+require('dotenv').config({
+  path: `.env.${process.env.NODE_ENV}`
+})
+
+
 module.exports = {
   siteMetadata: {
     siteUrl: "https://www.yourdomain.tld",
@@ -7,7 +13,21 @@ module.exports = {
   plugins: [
     "gatsby-plugin-sass",
     "gatsby-plugin-react-helmet",
-    // "gatsby-source-olap"
+    {
+      resolve: require.resolve("./plugins/gatsby-source-olap"),
+      options: {
+        s3: {
+          key: process.env.NODE_S3_KEY,
+          secret: process.env.NODE_S3_SECRET,
+          endpoint: process.env.NODE_S3_ENDPOINT,
+        },
+        bucket: 'dutrajardim',
+        olapCubes: [
+          { name: 'LevelWeekdayName', s3Key: 'udacity-dl-project/olap-cubes/users_level-times_weekday-artist_name.parquet' },
+          { name: 'YaerWeekGender', s3Key: 'udacity-dl-project/olap-cubes/songs_year-times_week-users_gender.parquet' }
+        ]
+      }
+    },
     {
       resolve: "gatsby-source-filesystem",
       options: {
@@ -15,7 +35,7 @@ module.exports = {
         path: `${__dirname}/..`,
         ignore: [
           "**/\_\_*",
-          "**/aws",
+          "**/shell_scripts",
           "**/docs",
           "**/k8s",
           "**/notebooks",

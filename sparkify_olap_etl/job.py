@@ -4,7 +4,7 @@ def olap_job(spark, input_data, output_data):
     """
     Description:
         This function is responsible for running all needed tasks
-        to retrive data, transform and save sparkify star schema in
+        to retrive data, transform and save sparkify olap cube queries in
         the output data address.
 
     Arguments:
@@ -16,40 +16,52 @@ def olap_job(spark, input_data, output_data):
         None.
     """
 
-    df_songplays = spark.read.format('parquet').load('%ssongplays.parquet' % input_data)
-    df_times = spark.read.format('parquet').load('%stimes.parquet' % input_data)
-    df_artists = spark.read.format('parquet').load('%sartists.parquet' % input_data)
-    df_users = spark.read.format('parquet').load('%susers.parquet' % input_data)
-    df_songs = spark.read.format('parquet').load('%ssongs.parquet' % input_data)
+    # loading fact table
+    df_songplays = spark.read.format("parquet").load("%ssongplays.parquet" % input_data)
 
-    # artists.name, songplays.level, times.weekday
+    # loading dimension tables
+    df_times = spark.read.format("parquet").load("%stimes.parquet" % input_data)
+    df_artists = spark.read.format("parquet").load("%sartists.parquet" % input_data)
+    df_users = spark.read.format("parquet").load("%susers.parquet" % input_data)
+    df_songs = spark.read.format("parquet").load("%ssongs.parquet" % input_data)
+
+    # creating a olap cube with artist name, user level and weekday
+    # artists.name, users.level, times.weekday
     cube_level_weekday_name = \
         df_songplays \
-            .join(df_times, on='start_time', how='left') \
-            .join(df_artists, on='artist_id', how='left') \
-            .fillna("unknown", subset=['name']) \
-            .cube('level', 'weekday', 'name')
+            .join(df_times, on="start_time", how="left") \
+            .join(df_artists, on="artist_id", how="left") \
+            .fillna("unknown", subset=["name"]) \
+            .cube("level", "weekday", "name") \
+            .count()
     
-    cube_level_weekday_name.count() \
-        .write.format('parquet') \
-        .mode('overwrite') \
-        .save('%slevel-weekday-artist.parquet' % output_data)
+    # saving to s3 bucket
+    cube_level_weekday_name \
+        .write \
+        .format("parquet") \
+        .mode("overwrite") \
+        .save("%susers_level-times_weekday-artist_name.parquet" % output_data)
 
+    # creating a olap cube with song year, user gender and week of the year
+    # times.week, users.gender, songs.weekday
     cube_year_week_gender = \
-        df_songplays.select(['start_time', 'user_id', 'song_id']) \
-            .join(df_times.select(['start_time', 'week']), on='start_time', how='left') \
-            .join(df_users.select(['user_id', 'gender']), on='user_id', how='left') \
-            .join(df_songs.select(['song_id', 'year']), on='song_id', how='left') \
+        df_songplays.select(["start_time", "user_id", "song_id"]) \
+            .join(df_times.select(["start_time", "week"]), on="start_time", how="left") \
+            .join(df_users.select(["user_id", "gender"]), on="user_id", how="left") \
+            .join(df_songs.select(["song_id", "year"]), on="song_id", how="left") \
             .fillna({
-                'gender': "unknown",
-                'year': -1
+                "gender": "unknown",
+                "year": -1
             }) \
-            .cube('year', 'week', 'gender')
+            .cube("year", "week", "gender") \
+            .count()
 
-    cube_year_week_gender.count() \
-        .write.format('parquet') \
-        .mode('overwrite') \
-        .save('%syear-week-gender.parquet' % output_data)
+    # saving to s3 bucket
+    cube_year_week_gender \
+        .write \
+        .format("parquet") \
+        .mode("overwrite") \
+        .save("%ssongs_year-times_week-users_gender.parquet" % output_data)
 
 def main():
     """
@@ -71,7 +83,7 @@ def main():
         .getOrCreate()
     
     # defining project sources paths 
-    output_data = "s3a://udacity-dend/olap-cubes"
+    output_data = "s3a://dutrajardim/udacity-dl-project/olap-cubes/"
     input_data = "s3a://dutrajardim/udacity-dl-project/"
 
     # stating olap job

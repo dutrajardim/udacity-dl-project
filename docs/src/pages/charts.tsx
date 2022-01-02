@@ -1,17 +1,17 @@
 import React from "react"
 
 import Layout from "../components/layout"
-// import PlaysByLevelWeekdayBar from "../charts/PlaysByLevelWeekdayBar"
-// import PlaysByLevelPie from "../charts/PlaysByLevelPie"
-// import PlaysByGenderPie from "../charts/PlaysByGenderPie"
-// import PlaysByGenderWeekScatter from "../charts/PlaysByGenderWeekScatter"
-// import ArtistsFiveMostListenedTable from "../charts/ArtistsFiveMostListenedTable"
+import PlaysByLevelWeekdayBar from "../charts/PlaysByLevelWeekdayBar"
+import PlaysByLevelPie from "../charts/PlaysByLevelPie"
+import PlaysByGenderPie from "../charts/PlaysByGenderPie"
+import PlaysByGenderWeekScatter from "../charts/PlaysByGenderWeekScatter"
+import ArtistsFiveMostListenedTable from "../charts/ArtistsFiveMostListenedTable"
 
 export default function ChartsPage() {
 	return (
 		<Layout>
 			<div></div>
-			{/* <div className="row row-cols-1 row-cols-md-3 g-4 mt-3">
+			<div className="row row-cols-1 row-cols-md-3 g-4 mt-3">
 				<div className="col">
 					<div className="card shadow rounded">
 						<div className="card-body">
@@ -54,7 +54,7 @@ export default function ChartsPage() {
 						</div>
 					</div>
 				</div>
-			</div> */}
+			</div>
 		</Layout>
 	)
 }

@@ -50,7 +50,7 @@ def extract_times(df_songplays):
     return df_times
 
 
-def save_times(spark, df_times, output_data):
+def save_times(spark, df_times, output_data, as_first_save=True):
     """
     Description:
         This function is responsible for storing the
@@ -61,16 +61,22 @@ def save_times(spark, df_times, output_data):
         df_times: Times spark data frame with all
         lazy transformations.
         output_data: S3 address where the result will be stored.
+        as_first_save: boolean used to config save mode (default = False)
 
     Returns:
         None.
     """
+    
+    # configing partition mode
+    partition_mode = "static" if as_first_save else "dynamic"
+
     # set dynamic mode to preserve previous month of times saved
-    spark.conf.set("spark.sql.sources.partitionOverwriteMode", "dynamic")
+    spark.conf.set("spark.sql.sources.partitionOverwriteMode", partition_mode)
 
     # saving times dataset
     df_times.write \
         .partitionBy(['year', 'month']) \
         .option('schema', time_table_schema) \
+        .format("parquet") \
         .mode('overwrite') \
         .save('%stimes.parquet' % output_data)

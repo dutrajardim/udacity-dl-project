@@ -11,7 +11,7 @@ spec:
   imagePullPolicy: Always
   mainApplicationFile: s3a://dutrajardim-etls/sparkify_etls/sparkify_script.py
   arguments:
-  - "star_schema_job"
+  - "olap_job"
   sparkVersion: "3.2.0"
   deps:
     pyFiles:

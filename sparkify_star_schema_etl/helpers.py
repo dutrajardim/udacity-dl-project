@@ -1,5 +1,26 @@
 import functools
 
+def s3_path_exists(sc, path):
+    """
+    Description:
+        This function is responsible for cheching if a s3 path
+        exists using a spark context.
+        Thanks @Dror, @Kini and @rosefun (https://stackoverflow.com/questions/55589969/how-to-check-a-file-folder-is-present-using-pyspark-without-getting-exception)
+    Arguments:
+        sc: The spark context to be used
+        path: The path of the bucket.
+    Return:
+        It returns True if the bucket exists and
+        flase otherwise.
+    """
+    
+    # manipulating java to get a file system module
+    fs = sc._jvm.org.apache.hadoop.fs.FileSystem.get(
+        sc._jvm.java.net.URI.create(path),
+        sc._jsc.hadoopConfiguration(),
+    )
+    
+    return fs.exists(sc._jvm.org.apache.hadoop.fs.Path(path))
 
 def _compose(*functions):
     """

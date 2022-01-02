@@ -65,7 +65,7 @@ def extract_users(df_log_data):
     return df_users
 
 
-def save_users(spark, df_users, output_data):
+def save_users(spark, df_users, output_data, as_first_save=False):
     """
     Description:
         This function is responsible for storing the
@@ -76,17 +76,22 @@ def save_users(spark, df_users, output_data):
         df_users: Users spark data frame with all
         lazy transformations.
         output_data: S3 address where the result will be stored.
+        as_first_save: boolean used to config save mode (default = False)
 
     Returns:
         None.
     """
+
+    # configing partition mode
+    partition_mode = "static" if as_first_save else "dynamic"
+
     # set dynamic mode to preserve previous users saved
-    spark.conf.set("spark.sql.sources.partitionOverwriteMode", "dynamic")
+    spark.conf.set("spark.sql.sources.partitionOverwriteMode", partition_mode)
 
     # saving users dataset
     df_users.write \
+        .partitionBy("user_id") \
         .option("schema", user_table_schema) \
         .format("parquet") \
-        .partitionBy("user_id") \
         .mode("overwrite")\
         .save("%susers.parquet" % output_data)

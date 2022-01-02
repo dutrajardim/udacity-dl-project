@@ -12,15 +12,15 @@ def start(arg):
         Function responsible for start a etl module job.
         Script usage: python sparkify_script.py <module job>
         
-        Module options: [olap_jov, start_schema_job]
+        Module options: [olap_job, start_schema_job]
 
     """
-
     
     if arg == 'olap_job':
         olap_main()
     elif arg == 'star_schema_job':
         star_schema_main()
+
 
 if __name__ == '__main__':
     # checking for an argument

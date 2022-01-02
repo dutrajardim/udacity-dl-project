@@ -1,9 +1,10 @@
 dl.cfg
 .ipynb_checkpoints
 .venv
+.env.*
 default-*-*-*-*-*.ipynb
 __pycache__
-local.sparkconf.cfg
+sparkconf.cfg
 
 dist
 build

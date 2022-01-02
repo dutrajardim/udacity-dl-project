@@ -5,63 +5,56 @@
  */
 //
 
-process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0
 const NODE_TYPE = `OLAP`
 
 const Minio = require('minio')
 const parquet = require('parquetjs-lite')
-
-const s3Client = new Minio.Client({
-    endPoint: 'minio.minio-tenant',
-    accessKey: 'admin',
-    secretKey: '6bd71ace-8866-407a-9bcc-714bc5753f18',
-    useSSL: true
-})
-
-async function s3GetPaths(bucket, prefix) {
-    return new Promise((resolve, reject) => {
-        let objects = s3Client.listObjectsV2(bucket, prefix, true)
-        let paths = []
-        objects.on('data', object => paths.push(object.name))
-        objects.on('end', _ => resolve(paths))
-        objects.on('error', error => reject(error))
-    })
-}
-
-async function s3GetObject(bucket, key) {
-    return new Promise((resolve, reject) => {
-        let bufferArray = []
-        s3Client.getObject(bucket, key, (error, stream) => {
-            if (error) reject(error)
-
-            stream.on('data', buffer => bufferArray.push(buffer))
-            stream.on('end', _ => resolve(Buffer.concat(bufferArray)))
-            stream.on('error', error => reject(error))
-        })
-    })
-}
 
 exports.sourceNodes = async ({
     actions,
     createContentDigest,
     createNodeId,
     getNodesByType,
-}) => {
+}, { s3, olapCubes, bucket }) => {
     const { createNode } = actions
 
-    const olapCubes = [
-        { name: 'LevelWeekdayArtists', s3Key: '/olap-cubes/level-weekday-artist.parquet' },
-        { name: 'YaerWeekGender', s3Key: '/olap-cubes/year-week-gender.parquet' }
-    ]
+    const s3Client = new Minio.Client({
+        endPoint: s3.endpoint,
+        accessKey: s3.key,
+        secretKey: s3.secret
+    })
 
-    const bucket = 'dutrajardim'
+    async function s3GetPaths(bucket, prefix) {
+        return new Promise((resolve, reject) => {
+            let objects = s3Client.listObjectsV2(bucket, prefix, true)
+            let paths = []
+            objects.on('data', object => paths.push(object.name))
+            objects.on('end', _ => resolve(paths))
+            objects.on('error', error => {
+                console.log(error)
+                reject(error)
+            })
+        })
+    }
+
+    async function s3GetObject(bucket, key) {
+        return new Promise((resolve, reject) => {
+            let bufferArray = []
+            s3Client.getObject(bucket, key, (error, stream) => {
+                if (error) reject(error)
+
+                stream.on('data', buffer => bufferArray.push(buffer))
+                stream.on('end', _ => resolve(Buffer.concat(bufferArray)))
+                stream.on('error', error => reject(error))
+            })
+        })
+    }
 
     for (const { name, s3Key } of olapCubes) {
 
         const nodeType = `${NODE_TYPE}${name}`
         try {
             let paths = await s3GetPaths(bucket, s3Key)
-
             for (const path of paths) {
                 if (!path.endsWith('.parquet')) continue
 

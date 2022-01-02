@@ -1,11 +1,7 @@
 {
-    "name": "gatsby-starter-olap",
+    "name": "gatsby-source-olap",
     "version": "1.0.0",
     "description": "A gatsby plugin to get olap data from s3 filesystem",
     "main": "gatsby-node.js",
-    "author": "Rafael Dutra Jardim <rafaeldjardim@gmail.com>",
-    "devDependencies": {
-        "minio": "^7.0.25",
-        "parquetjs-lite": "^0.8.7"
-    }
+    "author": "Rafael Dutra Jardim <rafaeldjardim@gmail.com>"
 }

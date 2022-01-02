@@ -47,7 +47,7 @@ def extract_artists(df_song_data):
     return df_artists
 
 
-def save_artists(spark, df_artists, output_data):
+def save_artists(spark, df_artists, output_data, as_first_save=False):
     """
     Description:
         This function is responsible for storing the
@@ -58,17 +58,18 @@ def save_artists(spark, df_artists, output_data):
         df_artists: Artists spark data frame with all
         lazy transformations.
         output_data: S3 address where the result will be stored.
+        as_first_save: boolean used to config save mode (default = False)
 
     Returns:
         None.
     """
-    # set dynamic mode to preserve previous artists saved
-    spark.conf.set("spark.sql.sources.partitionOverwriteMode", "dynamic")
+
+    # configing save mode
+    mode = "ignore" if as_first_save else "append"
 
     # saving songs dataset
-    df_artists.write \
-        .partitionBy(['artist_id', 'name']) \
+    df_artists.repartition(3).write \
         .option('schema', artist_table_schema) \
         .format('parquet') \
-        .mode('overwrite') \
+        .mode(mode) \
         .save('%sartists.parquet' % output_data)

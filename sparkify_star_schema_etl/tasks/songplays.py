@@ -5,7 +5,8 @@ from pyspark.sql.types import (
     StructField,
     StringType,
     IntegerType,
-    TimestampType
+    TimestampType,
+    ShortType
 )
 
 # songplay table schema
@@ -19,6 +20,8 @@ songplay_table_schema = StructType(
         StructField("session_id", IntegerType(), True),
         StructField("location", StringType(), True),
         StructField("user_agent", StringType(), True),
+        StructField("month", ShortType(), True),
+        StructField("year", ShortType(), True),
     ]
 )
 
@@ -47,7 +50,9 @@ def extract_songplays(df_joined):
         },
         cast_transformations={
             "start_time": "to_timestamp(start_time / 1000) as start_time",
-            "user_id": "INT(user_id) as user_id"
+            "user_id": "INT(user_id) as user_id",
+            "month": "month(to_timestamp(start_time / 1000)) as month",
+            "year": "year(to_timestamp(start_time / 1000)) as year",
         },
     )
 
@@ -57,7 +62,7 @@ def extract_songplays(df_joined):
     return df_songplays
     
 
-def save_songplays(spark, df_songplays, output_data):
+def save_songplays(spark, df_songplays, output_data, as_first_save=False):
     """
     Description:
         This function is responsible for storing the
@@ -68,20 +73,19 @@ def save_songplays(spark, df_songplays, output_data):
         df_songplays: Song plays spark data frame with all
         lazy transformations.
         output_data: S3 address where the result will be stored.
+        as_first_save: boolean used to config save mode (default = False)
     
     Returns:
         None.
     """
-    # set dynamic mode to preserve previous month of songplays saved
-    spark.conf.set("spark.sql.sources.partitionOverwriteMode", "dynamic")
-
+    
+    # configing save mode
+    mode = "ignore" if as_first_save else "append"
+    
     # saving songs dataset with new year and month columns
     # to create partitions
-    df_songplays \
-        .withColumn('year', expr("year(start_time)")) \
-        .withColumn('month', expr("month(start_time)")) \
-        .write \
+    df_songplays.write \
         .partitionBy(['year', 'month']) \
         .option('schema', songplay_table_schema) \
-        .mode('overwrite') \
+        .mode(mode) \
         .save('%ssongplays.parquet' % output_data)

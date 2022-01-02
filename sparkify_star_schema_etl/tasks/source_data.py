@@ -63,8 +63,6 @@ def extract_log_data(spark, input_data):
     Returns:
         A spark data frame with the log data.
     """
-    logger = logging.getLogger("data_lake_project")
-    logger.info("Stating load log data.")
 
     # loading staging log data
     df_log_data = spark.read.format("json") \
@@ -83,13 +81,11 @@ def extract_song_data(spark, input_data):
     
     Arguments:
         spark: Spark session.
-        input_data: s3 address where the song data is stored
+        input_data: s3 address where the song data is stored.
 
     Returns:
         A spark data frame with the song data.
     """
-    logger = logging.getLogger("data_lake_project")
-    logger.info("Stating load song data.")
 
     # loading staging song data
     df_song_data = spark.read.format("json") \

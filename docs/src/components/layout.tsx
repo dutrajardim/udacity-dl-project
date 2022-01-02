@@ -21,6 +21,9 @@ export default function Layout(props: {
                             <li className="nav-item">
                                 <Link className="nav-link" to="/files">Docstrings</Link>
                             </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/charts">Charts</Link>
+                            </li>
                         </ul>
                     </div>
                 </div>
