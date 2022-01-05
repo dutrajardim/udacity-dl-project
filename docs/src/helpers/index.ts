@@ -1,6 +1,7 @@
 // related to date
 
-export function getWeekdays(lang: string = navigator.language): string[] {
+export function getWeekdays(lang: string = 'en-US'): string[] {
+    lang = typeof navigator !== 'undefined' ? navigator.language : 'en-US'
     const daysInMS = 24 * 60 * 60 * 1000
     const firstSunday = 4 * daysInMS
 

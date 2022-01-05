@@ -125,7 +125,7 @@ def process_log_data(spark, input_data, output_data):
     save_times(spark, df_times, output_data, is_first_save)
 
 
-def main():
+def main(sparkConf = None):
     """
     Description:
         This function is responsible for starting
@@ -134,15 +134,22 @@ def main():
         after that, closing spark session.
     
     Arguments:
-        None.
+        sparkConf: spark session configuration (pyspark.SparkConf)
     
     Returns:
         None.
     """
+
     # starting spark session
-    spark = SparkSession.builder \
-        .appName("Udacity - Data Lake Project") \
-        .getOrCreate()
+    if sparkConf:
+        spark = SparkSession.builder \
+            .config(conf=sparkConf) \
+            .getOrCreate()
+    else:
+        spark = SparkSession.builder \
+            .appName("Udacity - Data Lake Project (Star Schema)") \
+            .getOrCreate()
+    
     
     # defining project sources paths 
     input_data = "s3a://udacity-dend/"

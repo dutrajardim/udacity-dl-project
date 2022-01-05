@@ -65,9 +65,11 @@ export default function Layout(props: {
                 <footer className='container'>
                     <div className="row">
                         <div className="col text-center">
-                            <img className="img-thumbnail" style={{ width: 120, height: 120, borderRadius: '50%' }} src="https://avatars.githubusercontent.com/u/38335241?s=400&u=cfaa3e23df4fa874144dcb250b972752bb492ab1&v=4" />
+
+                            <img className="img-thumbnail" style={{ width: 120, height: 120, borderRadius: '50%' }} src="https://lh3.googleusercontent.com/a-/AOh14GjHpAj7CMdDa-mxx1DoCaTjfe1FtHY260mCYC7rVg=s288-p-rw-no" />
+                            {/* <img className="img-thumbnail" style={{ width: 120, height: 120, borderRadius: '50%' }} src="https://avatars.githubusercontent.com/u/38335241?s=400&u=cfaa3e23df4fa874144dcb250b972752bb492ab1&v=4" /> */}
                             <p className='text-light flat-right mt-4'>
-                                <a className="me-4" href='www.linkedin.com/in/rafael-dutra-jardim' target="_blank">
+                                <a className="me-4" href='https://www.linkedin.com/in/rafael-dutra-jardim' target="_blank">
                                     <i className="bi bi-linkedin text-light" style={{ fontSize: '2rem' }}></i>
                                 </a>
                                 <a href='https://github.com/dutrajardim/udacity-dl-project' target="_blank">

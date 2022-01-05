@@ -63,7 +63,7 @@ def olap_job(spark, input_data, output_data):
         .mode("overwrite") \
         .save("%ssongs_year-times_week-users_gender.parquet" % output_data)
 
-def main():
+def main(sparkConf = None):
     """
     Description:
         This function is responsible for starting
@@ -72,15 +72,21 @@ def main():
         after that, closing spark session.
     
     Arguments:
-        None.
+        sparkConf: spark session configuration (pyspark.SparkConf)
     
     Returns:
         None.
     """
+
     # starting spark session
-    spark = SparkSession.builder \
-        .appName("Udacity - Data Lake Project (OLAP)") \
-        .getOrCreate()
+    if sparkConf:
+        spark = SparkSession.builder \
+            .config(conf=sparkConf) \
+            .getOrCreate()
+    else:
+        spark = SparkSession.builder \
+            .appName("Udacity - Data Lake Project (OLAP)") \
+            .getOrCreate()
     
     # defining project sources paths 
     output_data = "s3a://dutrajardim/udacity-dl-project/olap-cubes/"

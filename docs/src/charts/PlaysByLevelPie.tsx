@@ -1,8 +1,18 @@
 import React from 'react'
 import { useStaticQuery, graphql } from "gatsby"
-import Plot from "react-plotly.js"
+// import Plot from "react-plotly.js"
 
 import * as _ from 'lodash'
+import Loadable from 'react-loadable'
+
+const Plot = Loadable({
+    loader: () => import('react-plotly.js'),
+    loading: () => (
+        <div className="d-flex justify-content-center align-items-center" style={{ height: 200 }}>
+            <div className='loader'></div>
+        </div>
+    ),
+});
 
 const gql = graphql`
     query LevelWeekdayArtistCube {
@@ -37,6 +47,7 @@ export default function PlaysByLevelPie() {
     }
 
     return (
+        // @ts-ignore
         <Plot
             data={[levelTrace]}
             layout={layout}

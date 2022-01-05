@@ -29,7 +29,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             }
         }
     `)
- 
+
     if (result.errors) {
         reporter.panicOnBuild(`Error while running Graphql query.`)
         return
@@ -39,9 +39,24 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
     result.data.allFile.files.forEach(file => {
         createPage({
-            path: `files/${file.relativePath.slice(0,-3)}`,
+            path: `files/${file.relativePath.slice(0, -3)}`,
             component: pythonFileTemplate,
             context: { file, site: result.data.site }
         })
     })
 }
+
+exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
+    if (stage === 'build-html') {
+        actions.setWebpackConfig({
+            module: {
+                rules: [
+                    {
+                        test: /plotly.js/,
+                        use: loaders.null(),
+                    },
+                ],
+            },
+        });
+    }
+};

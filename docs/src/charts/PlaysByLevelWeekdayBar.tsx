@@ -1,8 +1,18 @@
 import React from 'react'
 import { useStaticQuery, graphql } from "gatsby"
-import Plot from "react-plotly.js"
+// import Plot from "react-plotly.js"
 
 import { getWeekdays } from '../helpers'
+import Loadable from 'react-loadable'
+
+const Plot = Loadable({
+    loader: () => import('react-plotly.js'),
+    loading: () => (
+        <div className="d-flex justify-content-center align-items-center" style={{ height: 250 }}>
+            <div className='loader'></div>
+        </div>
+    ),
+});
 
 const gql = graphql`
     query {
@@ -57,6 +67,7 @@ export default function PlaysByLevelWeekdayBar() {
     }
 
     return (
+        // @ts-ignore
         <Plot
             data={[freeLevelTrace, paidLevelTrace]}
             layout={layout}

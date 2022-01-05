@@ -82,5 +82,11 @@ The following command will install the dependencies listed in the package.json f
 $ npm run install
 $ ...
 $ npm run build-plugins
-& npm run build
+$ npm run build
+```
+
+And to serve the built documentation:
+
+```console
+$npm run serve
 ```
