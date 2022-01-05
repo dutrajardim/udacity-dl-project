@@ -1,0 +1,8 @@
+@startuml
+start
+:Execute Star Schema ETL;
+:Execute OLAP ETL;
+:Deploy GatsbyJS 
+with PlotlyJS charts;
+stop
+@enduml

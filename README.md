@@ -13,6 +13,10 @@ The diagram below shows the schema of source datasets and the desired schema aft
 
 ![Star Schema Diagram](./plantuml/project_diagram.png)
 
+And the activity diagram below shows the available steps developed.
+
+![Pipeline](./plantuml/pipeline.png)
+
 ### What you will find here
 I created the proposed ETL using python scripts. For tests purposes, I ran it in a local environment set up with Kubernetes and in an AWS Elastic MapReduce (EMR) cluster.\
 For the k8s environment, I've installed the [Minio Operator](https://github.com/minio/operator) to place the simple storage service (S3) role and the [Spark on K8s Operator](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator) to manage Spark applications.\
@@ -28,7 +32,7 @@ In this way, you will find in the project's Github repository the below root str
 - **sparkconf.cfg.exemple**: Example of how to create the configuration file used in the Jupyter Notebooks to set SparkConf.
 - **sparkify_script.py**: Main script responsible for selecting and starting one of the ETL modules created. This script expects a Spark Session.
 
-And, in the documentation pages, the following navigation links are available:
+And, in the [documentation pages](https://dutrajardim.github.io/udacity-dl-project), the following navigation links are available:
 
 - **Home**: The README.md file in the root repository directory.
 - **Docstrings**: The documentation of the python functions based in their docstrings.
@@ -68,10 +72,17 @@ Examples of usage in AWS EMR can be found in the shell_scripts folder. There are
 
 > ℹ️ **_NOTE:_** For Spark on K8s Operator environment, I first create a Minio share link to set --py-files, making the egg file available over HTTP protocol.
 
-To run sparkify_script.py, an argument informing which module to execute is expected. So, to run sparkify_star_schema_etl, the following command needs to be performed by the spark-submit:
+To run sparkify_script.py, an argument informing which module to execute is expected.
+When spark context is provided by the environment (Ex. amazon ERM):
 
 ```console
 $ sparkify_script.py <olap_job or start_schema_job>
+```
+ 
+And with pyspark installed in python environment: 
+
+```console
+$ python sparkify_script.py <olap_job or start_schema_job> [spark configuration file path]
 ```
 
 #### Documentation
