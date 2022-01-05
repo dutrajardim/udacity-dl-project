@@ -1,0 +1,5 @@
+{
+    "componentChunkName": "component---src-templates-python-file-tsx",
+    "path": "/files/sparkify_star_schema_etl/tasks/users",
+    "result": {"pageContext":{"file":{"relativePath":"sparkify_star_schema_etl/tasks/users.py","name":"users","fields":null,"functions":[{"name":"extract_users","line":28,"docstring":{"arguments":"df_log_data: A spark data frame with log data about song\n        plays.","description":"This function is responsible for extracting users data\n        from the log data frame.","returns":"The users data frame."}},{"name":"save_users","line":68,"docstring":{"arguments":"spark: Spark session.\n        df_users: Users spark data frame with all\n        lazy transformations.\n        output_data: S3 address where the result will be stored.\n        as_first_save: boolean used to config save mode (default = False)","description":"This function is responsible for storing the\n        transformed users data to the s3 bucket.","returns":"None."}}]},"site":{"siteMetadata":{"githubProjectUrl":"https://github.com/dutrajardim/udacity-dl-project/blob/main"}}}},
+    "staticQueryHashes": ["29811882"]}

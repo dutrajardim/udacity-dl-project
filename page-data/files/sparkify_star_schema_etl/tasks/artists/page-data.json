@@ -1,0 +1,5 @@
+{
+    "componentChunkName": "component---src-templates-python-file-tsx",
+    "path": "/files/sparkify_star_schema_etl/tasks/artists",
+    "result": {"pageContext":{"file":{"relativePath":"sparkify_star_schema_etl/tasks/artists.py","name":"artists","fields":null,"functions":[{"name":"extract_artists","line":21,"docstring":{"arguments":"df_song_data: A spark data frame with metadata about songs and\n        the artists of that song.","description":"This function is responsible for extracting artists data\n        from the song data frame.","returns":"The artists data frame."}},{"name":"save_artists","line":50,"docstring":{"arguments":"spark: Spark session.\n        df_artists: Artists spark data frame with all\n        lazy transformations.\n        output_data: S3 address where the result will be stored.\n        as_first_save: boolean used to config save mode (default = False)","description":"This function is responsible for storing the\n        transformed artists data to the s3 bucket.","returns":"None."}}]},"site":{"siteMetadata":{"githubProjectUrl":"https://github.com/dutrajardim/udacity-dl-project/blob/main"}}}},
+    "staticQueryHashes": ["29811882"]}

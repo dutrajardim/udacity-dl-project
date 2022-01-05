@@ -1,0 +1,5 @@
+{
+    "componentChunkName": "component---src-templates-python-file-tsx",
+    "path": "/files/sparkify_star_schema_etl/tasks/times",
+    "result": {"pageContext":{"file":{"relativePath":"sparkify_star_schema_etl/tasks/times.py","name":"times","fields":null,"functions":[{"name":"extract_times","line":23,"docstring":{"arguments":"df_songplays: A spark data frame with song plays information.","description":"This function is responsible for extracting times data\n        from the song plays data frame.","returns":"The times data frame."}},{"name":"save_times","line":53,"docstring":{"arguments":"spark: Spark session.\n        df_times: Times spark data frame with all\n        lazy transformations.\n        output_data: S3 address where the result will be stored.\n        as_first_save: boolean used to config save mode (default = False)","description":"This function is responsible for storing the\n        transformed times data to the s3 bucket.","returns":"None."}}]},"site":{"siteMetadata":{"githubProjectUrl":"https://github.com/dutrajardim/udacity-dl-project/blob/main"}}}},
+    "staticQueryHashes": ["29811882"]}

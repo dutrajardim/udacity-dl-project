@@ -1,0 +1,5 @@
+{
+    "componentChunkName": "component---src-templates-python-file-tsx",
+    "path": "/files/setup",
+    "result": {"pageContext":{"file":{"relativePath":"setup.py","name":"setup","fields":{"pythonComment":"Description:\n    Script responsible for the project package configuration."},"functions":[]},"site":{"siteMetadata":{"githubProjectUrl":"https://github.com/dutrajardim/udacity-dl-project/blob/main"}}}},
+    "staticQueryHashes": ["29811882"]}
