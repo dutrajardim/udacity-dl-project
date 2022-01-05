@@ -66,9 +66,11 @@ exports.sourceNodes = async ({
                 while (record = await cursor.next()) {
                     record.count = Number(record.count)
                     let recordString = JSON.stringify({ ...record, count: undefined })
+                    let newRecord = Object.keys(record).reduce((acc, key) =>
+                        (key == 'count') ? { ...acc, [key]: Number(record[key]) } : { ...acc, [key]: String(record[key]) }, {})
 
                     createNode({
-                        ...record,
+                        ...newRecord,
                         id: createNodeId(`${NODE_TYPE}-${recordString}`),
                         parent: null,
                         children: [],

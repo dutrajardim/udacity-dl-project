@@ -1,0 +1,100 @@
+@startuml
+
+package "Star Schema" <<Rectangle>> {
+
+    object artists {
+        artist_id: String
+        name: String
+        location: String
+        latitude: Double
+        longitude: Double
+    }
+
+    object songplays {
+        start_time: Timestamp
+        user_id: Integer
+        level: String
+        song_id: String
+        artist_id: String
+        session_id: String
+        location: String
+        user_agent: String
+        month: Short
+        year: Short
+    }
+
+    object songs {
+        song_id: String
+        title: String
+        artist_id: String
+        year: Short
+        duration: Double
+    }
+
+    object times {
+        start_time: Timestamp
+        hour: Short
+        day: Short
+        week: Short
+        month: Short
+        year: Short
+        weekday: Short
+    }
+
+    object users {
+        user_id: Integer
+        first_name: String
+        last_name: String
+        gender: String
+        level: String
+    }
+
+    songplays .up. songs
+    songplays .down. users
+    songplays .left. artists
+    songplays .right. times
+
+}
+
+
+package "Source Datasets" <<Rectangle>> {
+
+    object log_data {
+        artist: String
+        auth: String
+        firstName: String
+        gender: String
+        itemInSession: String
+        lastName: String
+        length: String
+        level: String
+        location: String
+        method: String
+        page: String
+        registration: Long
+        sessionId: Integer
+        song: String
+        status: String
+        ts: Long
+        userAgent: String
+        userId: String
+    }
+
+    object song_data {
+        artist_id: String
+        artist_location: String
+        artist_latitude: Double
+        artist_longitude: Double
+        artist_name: String
+        duration: Double
+        num_songs: Short
+        song_id: String
+        title: String
+        year: Short
+    }
+}
+
+left to right direction
+"Source Datasets" --> "Star Schema" : transformations
+
+@enduml

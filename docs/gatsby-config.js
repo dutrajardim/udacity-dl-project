@@ -13,6 +13,7 @@ module.exports = {
   plugins: [
     "gatsby-plugin-sass",
     "gatsby-plugin-react-helmet",
+    "gatsby-plugin-sharp",
     {
       resolve: require.resolve("./plugins/gatsby-source-olap"),
       options: {
@@ -48,6 +49,18 @@ module.exports = {
       }
     },
     require.resolve('./plugins/gatsby-transformer-python-docstring/dist'),
-    "gatsby-transformer-remark"
+    {
+      resolve: "gatsby-transformer-remark",
+      options: {
+        plugins: [
+          {
+            resolve: "gatsby-remark-images",
+            options: {
+              maxWidth: 800,
+            }
+          }
+        ]
+      }
+    },
   ],
 };

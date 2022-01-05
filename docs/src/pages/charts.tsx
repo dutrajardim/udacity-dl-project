@@ -10,7 +10,17 @@ import ArtistsFiveMostListenedTable from "../charts/ArtistsFiveMostListenedTable
 export default function ChartsPage() {
 	return (
 		<Layout>
-			<div></div>
+			<div className="row">
+				<div className="col">
+					<h2>Charts example</h2>
+					<p>
+						As the result of the queries are stored in an S3 bucket, on each build of the
+						Gatsby Js, a script using the Minio Js framework downloads the parquet files, that are read with
+						the help of the <a href="https://github.com/ZJONSSON/parquetjs" target="_blank">parquetjs-lite</a> package,
+						and then rendered the charts by <a href="https://plotly.com/javascript/" target="_blank">Plotly.js</a>.
+					</p>
+				</div>
+			</div>
 			<div className="row row-cols-1 row-cols-md-3 g-4 mt-3">
 				<div className="col">
 					<div className="card shadow rounded">

@@ -24,19 +24,19 @@ interface PythonFile {
 
 export default function PythonFile({ pageContext }: PageProps) {
     pageContext
-    const { file, site } = (pageContext as { file: PythonFile, site: { siteMetadata: { githubProjectUrl: string }} })
+    const { file, site } = (pageContext as { file: PythonFile, site: { siteMetadata: { githubProjectUrl: string } } })
 
     return (
         <Layout>
             <>
                 <div className="row">
-                    <div className="col col-md-3 order-md-2 mb-5">
+                    <div className="col-12 col-md-3 mb-5 order-md-2">
                         <FilesNav />
                     </div>
-                    <div className="col col-md-9  order-md-1">
+                    <div className="col-12 col-md-9 order-md-1">
                         <div className='row pb-3'>
                             <div className="col">
-                                <h2 className="text-info">{_.capitalize(file.name.replace(/_/g, " "))}</h2>
+                                <h2>{_.capitalize(file.name.replace(/_/g, " "))}</h2>
                                 <small className="text-muted">
                                     <i className="bi bi-file-code pe-2"></i>{file.relativePath}
                                 </small>
@@ -45,7 +45,7 @@ export default function PythonFile({ pageContext }: PageProps) {
                         </div>
                         {file.functions.map((func, idx) => (
                             <div className="border-start border-3 px-4 mb-5" key={idx}>
-                                <h3 className="mb-4 text-info"><i className="bi bi-cpu pe-3"></i>{func.name}</h3>
+                                <h3 className="mb-4"><i className="bi bi-cpu pe-3"></i>{func.name}</h3>
                                 <dl>
                                     <dt>Description:</dt>
                                     <dd>{func.docstring.description}</dd>

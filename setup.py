@@ -1,3 +1,8 @@
+"""
+Description:
+    Script responsible for the project package configuration.
+"""
+
 from setuptools import setup
 from setuptools import find_packages
 
