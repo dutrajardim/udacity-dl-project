@@ -5,6 +5,7 @@ require('dotenv').config({
 
 
 module.exports = {
+  pathPrefix: 'udacity-dl-project',
   siteMetadata: {
     siteUrl: "https://www.yourdomain.tld",
     title: "Sparkify Data Lake Dashboard",
