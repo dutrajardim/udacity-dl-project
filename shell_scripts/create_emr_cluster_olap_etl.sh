@@ -8,7 +8,7 @@ SUBNET_ID=$(aws ec2 describe-subnets --filter Name=vpc-id,Values=$VPC_ID | jq -r
 aws emr create-default-roles > /dev/null
 
 PY_FILES=s3://dutrajardim-etls/sparkify_etls/sparkify_etls-0.1.0-py3.9.egg
-SCRIPT_FILE=s3://dutrajardim-etls/sparkify_etls/sparkify_script.py
+SCRIPT_FILE=s3://dutrajardim-etls/sparkify_etls/etl.py
 PY_ARGS=--no-standalone,--job,olap_job
 
 aws emr create-cluster \
