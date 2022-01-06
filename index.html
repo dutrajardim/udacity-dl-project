@@ -11,7 +11,7 @@ The diagram below shows the schema of source datasets and the desired schema aft
     >
       <a
     class="gatsby-resp-image-link"
-    href="/udacity-dl-project/static/9ef783a43df4d9bc9eb998bbc4dd19a4/e1031/project_diagram.png"
+    href="/static/9ef783a43df4d9bc9eb998bbc4dd19a4/e1031/project_diagram.png"
     style="display: block"
     target="_blank"
     rel="noopener"
@@ -24,11 +24,11 @@ The diagram below shows the schema of source datasets and the desired schema aft
         class="gatsby-resp-image-image"
         alt="Star Schema Diagram"
         title="Star Schema Diagram"
-        src="/udacity-dl-project/static/9ef783a43df4d9bc9eb998bbc4dd19a4/5a190/project_diagram.png"
-        srcset="/udacity-dl-project/static/9ef783a43df4d9bc9eb998bbc4dd19a4/772e8/project_diagram.png 200w,
-/udacity-dl-project/static/9ef783a43df4d9bc9eb998bbc4dd19a4/e17e5/project_diagram.png 400w,
-/udacity-dl-project/static/9ef783a43df4d9bc9eb998bbc4dd19a4/5a190/project_diagram.png 800w,
-/udacity-dl-project/static/9ef783a43df4d9bc9eb998bbc4dd19a4/e1031/project_diagram.png 803w"
+        src="/static/9ef783a43df4d9bc9eb998bbc4dd19a4/5a190/project_diagram.png"
+        srcset="/static/9ef783a43df4d9bc9eb998bbc4dd19a4/772e8/project_diagram.png 200w,
+/static/9ef783a43df4d9bc9eb998bbc4dd19a4/e17e5/project_diagram.png 400w,
+/static/9ef783a43df4d9bc9eb998bbc4dd19a4/5a190/project_diagram.png 800w,
+/static/9ef783a43df4d9bc9eb998bbc4dd19a4/e1031/project_diagram.png 803w"
         sizes="(max-width: 800px) 100vw, 800px"
         style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
         loading="lazy"
@@ -43,7 +43,7 @@ The diagram below shows the schema of source datasets and the desired schema aft
     >
       <a
     class="gatsby-resp-image-link"
-    href="/udacity-dl-project/static/b7badfe2284db9075b2f9061545f4be2/0f8c7/pipeline.png"
+    href="/static/b7badfe2284db9075b2f9061545f4be2/0f8c7/pipeline.png"
     style="display: block"
     target="_blank"
     rel="noopener"
@@ -56,8 +56,8 @@ The diagram below shows the schema of source datasets and the desired schema aft
         class="gatsby-resp-image-image"
         alt="Pipeline"
         title="Pipeline"
-        src="/udacity-dl-project/static/b7badfe2284db9075b2f9061545f4be2/0f8c7/pipeline.png"
-        srcset="/udacity-dl-project/static/b7badfe2284db9075b2f9061545f4be2/0f8c7/pipeline.png 189w"
+        src="/static/b7badfe2284db9075b2f9061545f4be2/0f8c7/pipeline.png"
+        srcset="/static/b7badfe2284db9075b2f9061545f4be2/0f8c7/pipeline.png 189w"
         sizes="(max-width: 189px) 100vw, 189px"
         style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
         loading="lazy"
@@ -69,16 +69,21 @@ The diagram below shows the schema of source datasets and the desired schema aft
 <p>I created the proposed ETL using python scripts. For tests purposes, I ran it in a local environment set up with Kubernetes and in an AWS Elastic MapReduce (EMR) cluster.<br>
 For the k8s environment, I've installed the <a href="https://github.com/minio/operator">Minio Operator</a> to place the simple storage service (S3) role and the <a href="https://github.com/GoogleCloudPlatform/spark-on-k8s-operator">Spark on K8s Operator</a> to manage Spark applications.<br>
 In this way, you will find in the project's Github repository the below root structure.</p>
+<p>Main files:</p>
 <ul>
 <li><strong>sparkify_star_schema_etl</strong>: Python module created to get the log and songs data, transform and save the data to tables in the Star Schema.</li>
+<li><strong>etl.py</strong>: Main script responsible for selecting and starting one of the ETL modules created.</li>
+<li><strong>setup.py</strong>: Python script responsible for configuring the project package creation.</li>
+<li><strong>dl.cfg.example</strong>: Example of how to create the configuration file to run the ETL with Spark in standalone mode. For standalone mode duplicate this file removing .example and set the S3 AWS credentials.</li>
+</ul>
+<p>Additional files (olap_etl module and example files):</p>
+<ul>
 <li><strong>sparkify_olap_etl</strong>: This python module is responsible for querying OLAP cubes from tables created by sparkify_star_schema_etl and saving them to an s3 bucket.</li>
 <li><strong>docs</strong>: The documentation is responsible for looking for docstrings in the python files and extracting them. It also takes care of render charts of the data saved by the OLAP module. The result is a static website powered by <a href="https://www.gatsbyjs.com">Gatsby.js</a>, created to help get started with the project.</li>
 <li><strong>notebooks</strong>: Jupyter Notebooks are used here for tests and analysis purposes.</li>
 <li><strong>plantuml</strong>: Plant UML diagrams.</li>
 <li><strong>shell_scripts</strong>: Bash scripts examples to create EMR clusters to run the created ETLs.</li>
-<li><strong>setup.py</strong>: Python script responsible for configuring the project package creation.</li>
 <li><strong>sparkconf.cfg.exemple</strong>: Example of how to create the configuration file used in the Jupyter Notebooks to set SparkConf.</li>
-<li><strong>sparkify_script.py</strong>: Main script responsible for selecting and starting one of the ETL modules created. This script expects a Spark Session.</li>
 </ul>
 <p>And, in the <a href="https://dutrajardim.github.io/udacity-dl-project">documentation pages</a>, the following navigation links are available:</p>
 <ul>
@@ -86,7 +91,24 @@ In this way, you will find in the project's Github repository the below root str
 <li><strong>Docstrings</strong>: The documentation of the python functions based in their docstrings.</li>
 <li><strong>Charts</strong>: Charts examples created from the result of sparkify_olap_etl module.</li>
 </ul>
-<h3>Installation</h3>
+<h3>Spark in Standalone mode</h3>
+<h4>Installation</h4>
+<p>Download the project source code and create a virtual python environment (using python >= 3.5) with the following commands in the Linux shell console.</p>
+<pre><code class="language-console">$ git clone https://github.com/dutrajardim/udacity-dl-project.git
+$ ...
+$ cd udacity-dl-project
+$ python -m venv .venv
+$ ...
+$ source .venv/bin/activate
+$ python setup.py install
+$ ...
+</code></pre>
+<h4>How to use</h4>
+<p>To run etl.py with Spark in standalone mode no arguments is needed. Set the df.cfg file with AWS S2 credentials in the root file and execute the etl.py script.</p>
+<pre><code class="language-console">$ python etl.py
+</code></pre>
+<h3>Spark with Yarn or Kurbernates</h3>
+<h4>Installation</h4>
 <p>Download the project source code and create a virtual python environment (using python >= 3.5) with the following commands in the Linux shell console.</p>
 <pre><code class="language-console">$ git clone https://github.com/dutrajardim/udacity-dl-project.git
 $ ...
@@ -95,31 +117,21 @@ $ python -m venv .venv
 $ ...
 $ source .venv/bin/activate
 </code></pre>
-<blockquote>
-<p>ℹ️ <strong><em>NOTE:</em></strong> If you want to use the notebooks with Spark in client mode on Kubernetes, as set in 'sparkconf.cfg.exemple' file (in the project root directory), make sure to use python of the same version as in the docker executors image. Differents versions of python in driver and executors lead to errors.</p>
-</blockquote>
-<p>To compile python dependencies as a package file that can be sent to the Spark cluster, you can run the command below. It's going to generate an egg file in the dist folder. This file we can set as an argument to Pyspark --py-file to be used as dependence for the main script sparkify_script.py.</p>
+<p>To compile python dependencies as a package file that can be sent to the Spark cluster, you can run the command below. It's going to generate an egg file in the dist folder. This file we can set as an argument to Pyspark --py-file to be used as dependence for the main script etl.py.</p>
 <pre><code class="language-console">$ python setup.py bdist_egg
 </code></pre>
-<p>To install it in the local environment, execute as follow. It will allow us to import the modules in notebooks files.</p>
-<pre><code class="language-console">$ python setup.py install
-</code></pre>
-<blockquote>
-<p>ℹ️ <strong><em>NOTE:</em></strong> For more information about the python package setup, you can visit the <a href="https://setuptools.pypa.io/en/latest/">SetupTools Documentation.</a></p>
-</blockquote>
-<p>The modules egg file and the main script sparkify_script.py can be uploaded to S3 to make it remotely available for spark drivers and workers to download. <br>
+<p>The modules egg file and the main script etl.py can be uploaded to S3 to make it remotely available for spark drivers and workers to download. <br>
 Examples of usage in AWS EMR can be found in the shell_scripts folder. There are also files in the k8s folder that shows how to set up it with Spark on K8s Operator and Minio.</p>
 <blockquote>
 <p>ℹ️ <strong><em>NOTE:</em></strong> For Spark on K8s Operator environment, I first create a Minio share link to set --py-files, making the egg file available over HTTP protocol.</p>
 </blockquote>
-<p>To run sparkify_script.py, an argument informing which module to execute is expected.
-When spark context is provided by the environment (Ex. amazon ERM):</p>
-<pre><code class="language-console">$ sparkify_script.py &#x3C;olap_job or start_schema_job>
+<p>To run etl.py in a non-standalone mode the flag --no-standalone must be provided.</p>
+<pre><code class="language-console">$ etl.py --no-standalone
 </code></pre>
-<p>And with pyspark installed in python environment:</p>
-<pre><code class="language-console">$ python sparkify_script.py &#x3C;olap_job or start_schema_job> [spark configuration file path]
+<p>You can also request to run the OLAP ETL module instead of Star Schema ETL as example below:</p>
+<pre><code class="language-console">$ etl.py --no-standalone --job olap_job
 </code></pre>
-<h4>Documentation</h4>
+<h3>Documentation</h3>
 <p>The documentation can be used in the project pipeline to build charts from the OLAP queries stored in an S3 bucket.
 The following command will install the dependencies listed in the package.json file. From the root directory, use the argument <em>--prefix docs</em>:</p>
 <pre><code class="language-console">$ npm run install
@@ -128,5 +140,16 @@ $ npm run build-plugins
 $ npm run build
 </code></pre>
 <p>And to serve the built documentation:</p>
-<pre><code class="language-console">$npm run serve
-</code></pre></div></div></main></div><div class="pt-4 bg-dark"><footer class="container"><div class="row"><div class="col text-center"><img class="img-thumbnail" style="width:120px;height:120px;border-radius:50%" src="https://lh3.googleusercontent.com/a-/AOh14GjHpAj7CMdDa-mxx1DoCaTjfe1FtHY260mCYC7rVg=s288-p-rw-no"/><p class="text-light flat-right mt-4"><a class="me-4" href="https://www.linkedin.com/in/rafael-dutra-jardim" target="_blank"><i class="bi bi-linkedin text-light" style="font-size:2rem"></i></a><a href="https://github.com/dutrajardim/udacity-dl-project" target="_blank"><i class="bi bi-github text-light" style="font-size:2rem"></i></a></p></div></div></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"polyfill":["/polyfill-b441f31b2ec9c7c4a43c.js"],"app":["/app-6b0ec13792d2402c071d.js"],"component---src-pages-404-tsx":["/component---src-pages-404-tsx-64861b1256fecce04c81.js"],"component---src-pages-charts-tsx":["/component---src-pages-charts-tsx-822cf7afe5985e654de7.js"],"component---src-pages-files-tsx":["/component---src-pages-files-tsx-e12e8431fdd32439bb45.js"],"component---src-pages-index-tsx":["/component---src-pages-index-tsx-3e844ed2ebc83c301960.js"],"component---src-templates-python-file-tsx":["/component---src-templates-python-file-tsx-66888d47e8fd5934e550.js"]};/*]]>*/</script><script src="/udacity-dl-project/polyfill-b441f31b2ec9c7c4a43c.js" nomodule=""></script><script src="/udacity-dl-project/component---src-pages-index-tsx-3e844ed2ebc83c301960.js" async=""></script><script src="/udacity-dl-project/app-6b0ec13792d2402c071d.js" async=""></script><script src="/udacity-dl-project/framework-d23f481189063cc28401.js" async=""></script><script src="/udacity-dl-project/webpack-runtime-9d6b07ab5864df3df1a6.js" async=""></script></body></html>
+<pre><code class="language-console">$ npm run serve
+</code></pre>
+<h2>References:</h2>
+<p><a href="https://spark.apache.org/">Spark Apache</a><br>
+<a href="https://spark.apache.org/docs/latest/configuration.html">Spark Configurations</a><br>
+<a href="https://github.com/GoogleCloudPlatform/spark-on-k8s-operator">Spark on K8s Operator</a><br>
+<a href="https://setuptools.pypa.io/en/latest/">SetupTools Documentation.</a><br>
+<a href="https://min.io/">Minio</a><br>
+<a href="https://github.com/minio/operator">Minio Operator</a><br>
+<a href="https://plantuml.com/">PlantUml</a><br>
+<a href="https://www.gatsbyjs.com/">GatsbyJs</a><br>
+<a href="https://microk8s.io/">Microk8s</a><br>
+<a href="https://getbootstrap.com/">Bootstrap</a></p></div></div></main></div><div class="pt-4 bg-dark"><footer class="container"><div class="row"><div class="col text-center"><img class="img-thumbnail" style="width:120px;height:120px;border-radius:50%" src="https://lh3.googleusercontent.com/a-/AOh14GjHpAj7CMdDa-mxx1DoCaTjfe1FtHY260mCYC7rVg=s288-p-rw-no"/><p class="text-light flat-right mt-4"><a class="me-4" href="https://www.linkedin.com/in/rafael-dutra-jardim" target="_blank"><i class="bi bi-linkedin text-light" style="font-size:2rem"></i></a><a href="https://github.com/dutrajardim/udacity-dl-project" target="_blank"><i class="bi bi-github text-light" style="font-size:2rem"></i></a></p></div></div></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"polyfill":["/polyfill-b441f31b2ec9c7c4a43c.js"],"app":["/app-6b0ec13792d2402c071d.js"],"component---src-pages-404-tsx":["/component---src-pages-404-tsx-64861b1256fecce04c81.js"],"component---src-pages-charts-tsx":["/component---src-pages-charts-tsx-822cf7afe5985e654de7.js"],"component---src-pages-files-tsx":["/component---src-pages-files-tsx-e12e8431fdd32439bb45.js"],"component---src-pages-index-tsx":["/component---src-pages-index-tsx-3e844ed2ebc83c301960.js"],"component---src-templates-python-file-tsx":["/component---src-templates-python-file-tsx-66888d47e8fd5934e550.js"]};/*]]>*/</script><script src="/udacity-dl-project/polyfill-b441f31b2ec9c7c4a43c.js" nomodule=""></script><script src="/udacity-dl-project/component---src-pages-index-tsx-3e844ed2ebc83c301960.js" async=""></script><script src="/udacity-dl-project/app-6b0ec13792d2402c071d.js" async=""></script><script src="/udacity-dl-project/framework-d23f481189063cc28401.js" async=""></script><script src="/udacity-dl-project/webpack-runtime-9d6b07ab5864df3df1a6.js" async=""></script></body></html>
