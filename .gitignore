@@ -5,6 +5,7 @@ dl.cfg
 default-*-*-*-*-*.ipynb
 __pycache__
 sparkconf.cfg
+dl.cfg
 
 dist
 build

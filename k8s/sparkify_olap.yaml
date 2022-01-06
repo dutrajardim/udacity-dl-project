@@ -1,7 +1,7 @@
 apiVersion: "sparkoperator.k8s.io/v1beta2"
 kind: SparkApplication
 metadata:
-  name: sparkify-star-schema
+  name: sparkify-olap
   namespace: spark-apps
 spec:
   type: Python
@@ -9,8 +9,10 @@ spec:
   mode: cluster
   image: "dutradocker/spark-py:3.2.0"
   imagePullPolicy: Always
-  mainApplicationFile: s3a://dutrajardim-etls/sparkify_etls/sparkify_script.py
+  mainApplicationFile: s3a://dutrajardim-etls/sparkify_etls/etl.py
   arguments:
+  - "--no-standalone"
+  - "--job"
   - "olap_job"
   sparkVersion: "3.2.0"
   deps:

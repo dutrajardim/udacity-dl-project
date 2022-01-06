@@ -22,15 +22,22 @@ I created the proposed ETL using python scripts. For tests purposes, I ran it in
 For the k8s environment, I've installed the [Minio Operator](https://github.com/minio/operator) to place the simple storage service (S3) role and the [Spark on K8s Operator](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator) to manage Spark applications.\
 In this way, you will find in the project's Github repository the below root structure.
 
+Main files:
+
 - **sparkify_star_schema_etl**: Python module created to get the log and songs data, transform and save the data to tables in the Star Schema.
+- **etl.py**: Main script responsible for selecting and starting one of the ETL modules created.
+- **setup.py**: Python script responsible for configuring the project package creation.
+- **dl.cfg.example**: Example of how to create the configuration file to run the ETL with Spark in standalone mode. For standalone mode duplicate this file removing .example and set the S3 AWS credentials.
+
+Additional files (olap_etl module and example files):
+
 - **sparkify_olap_etl**: This python module is responsible for querying OLAP cubes from tables created by sparkify_star_schema_etl and saving them to an s3 bucket.
 - **docs**: The documentation is responsible for looking for docstrings in the python files and extracting them. It also takes care of render charts of the data saved by the OLAP module. The result is a static website powered by [Gatsby.js](https://www.gatsbyjs.com), created to help get started with the project.
 - **notebooks**: Jupyter Notebooks are used here for tests and analysis purposes.
 - **plantuml**: Plant UML diagrams.
 - **shell_scripts**: Bash scripts examples to create EMR clusters to run the created ETLs. 
-- **setup.py**: Python script responsible for configuring the project package creation.
 - **sparkconf.cfg.exemple**: Example of how to create the configuration file used in the Jupyter Notebooks to set SparkConf.
-- **sparkify_script.py**: Main script responsible for selecting and starting one of the ETL modules created. This script expects a Spark Session.
+
 
 And, in the [documentation pages](https://dutrajardim.github.io/udacity-dl-project), the following navigation links are available:
 
@@ -38,7 +45,31 @@ And, in the [documentation pages](https://dutrajardim.github.io/udacity-dl-proje
 - **Docstrings**: The documentation of the python functions based in their docstrings.
 - **Charts**: Charts examples created from the result of sparkify_olap_etl module.
 
-### Installation
+### Spark in Standalone mode
+
+#### Installation
+Download the project source code and create a virtual python environment (using python >= 3.5) with the following commands in the Linux shell console.
+
+```console
+$ git clone https://github.com/dutrajardim/udacity-dl-project.git
+$ ...
+$ cd udacity-dl-project
+$ python -m venv .venv
+$ ...
+$ source .venv/bin/activate
+$ python setup.py install
+$ ...
+```
+
+#### How to use
+To run etl.py with Spark in standalone mode no arguments is needed. Set the df.cfg file with AWS S2 credentials in the root file and execute the etl.py script.
+
+```console
+$ python etl.py
+```
+
+### Spark with Yarn or Kurbernates
+#### Installation
 Download the project source code and create a virtual python environment (using python >= 3.5) with the following commands in the Linux shell console.
 
 
@@ -51,41 +82,30 @@ $ ...
 $ source .venv/bin/activate
 ```
 
-> ℹ️ **_NOTE:_** If you want to use the notebooks with Spark in client mode on Kubernetes, as set in 'sparkconf.cfg.exemple' file (in the project root directory), make sure to use python of the same version as in the docker executors image. Differents versions of python in driver and executors lead to errors.
-
-To compile python dependencies as a package file that can be sent to the Spark cluster, you can run the command below. It's going to generate an egg file in the dist folder. This file we can set as an argument to Pyspark --py-file to be used as dependence for the main script sparkify_script.py.
+To compile python dependencies as a package file that can be sent to the Spark cluster, you can run the command below. It's going to generate an egg file in the dist folder. This file we can set as an argument to Pyspark --py-file to be used as dependence for the main script etl.py.
 
 ```console
 $ python setup.py bdist_egg
 ```
 
-To install it in the local environment, execute as follow. It will allow us to import the modules in notebooks files.
-
-```console
-$ python setup.py install
-```
-
-> ℹ️ **_NOTE:_** For more information about the python package setup, you can visit the [SetupTools Documentation.](https://setuptools.pypa.io/en/latest/)
-
-The modules egg file and the main script sparkify_script.py can be uploaded to S3 to make it remotely available for spark drivers and workers to download. \
+The modules egg file and the main script etl.py can be uploaded to S3 to make it remotely available for spark drivers and workers to download. \
 Examples of usage in AWS EMR can be found in the shell_scripts folder. There are also files in the k8s folder that shows how to set up it with Spark on K8s Operator and Minio.
 
 > ℹ️ **_NOTE:_** For Spark on K8s Operator environment, I first create a Minio share link to set --py-files, making the egg file available over HTTP protocol.
 
-To run sparkify_script.py, an argument informing which module to execute is expected.
-When spark context is provided by the environment (Ex. amazon ERM):
+To run etl.py in a non-standalone mode the flag --no-standalone must be provided.
 
 ```console
-$ sparkify_script.py <olap_job or start_schema_job>
+$ etl.py --no-standalone
 ```
- 
-And with pyspark installed in python environment: 
+
+You can also request to run the OLAP ETL module instead of Star Schema ETL as example below:
 
 ```console
-$ python sparkify_script.py <olap_job or start_schema_job> [spark configuration file path]
+$ etl.py --no-standalone --job olap_job
 ```
 
-#### Documentation
+### Documentation
 The documentation can be used in the project pipeline to build charts from the OLAP queries stored in an S3 bucket.
 The following command will install the dependencies listed in the package.json file. From the root directory, use the argument *--prefix docs*:
 
@@ -99,5 +119,18 @@ $ npm run build
 And to serve the built documentation:
 
 ```console
-$npm run serve
+$ npm run serve
 ```
+
+## References:
+
+[Spark Apache](https://spark.apache.org/)\
+[Spark Configurations](https://spark.apache.org/docs/latest/configuration.html)\
+[Spark on K8s Operator](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator)\
+[SetupTools Documentation.](https://setuptools.pypa.io/en/latest/)\
+[Minio](https://min.io/)\
+[Minio Operator](https://github.com/minio/operator)\
+[PlantUml](https://plantuml.com/)\
+[GatsbyJs](https://www.gatsbyjs.com/)\
+[Microk8s](https://microk8s.io/)\
+[Bootstrap](https://getbootstrap.com/)

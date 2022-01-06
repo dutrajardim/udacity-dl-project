@@ -9,7 +9,7 @@ aws emr create-default-roles > /dev/null
 
 PY_FILES=s3://dutrajardim-etls/sparkify_etls/sparkify_etls-0.1.0-py3.9.egg
 SCRIPT_FILE=s3://dutrajardim-etls/sparkify_etls/sparkify_script.py
-PY_ARGS=olap_job
+PY_ARGS=--no-standalone,--job,olap_job
 
 aws emr create-cluster \
     --name udacity-dl-project \
