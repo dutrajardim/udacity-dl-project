@@ -62,7 +62,7 @@ $ ...
 ```
 
 #### How to use
-To run etl.py with Spark in standalone mode no arguments is needed. Set the df.cfg file with AWS S2 credentials in the root file and execute the etl.py script.
+To run etl.py with Spark in standalone mode no arguments is needed. Set the df.cfg file with AWS S3 credentials in the root file and execute the etl.py script.
 
 ```console
 $ python etl.py
